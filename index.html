@@ -899,7 +899,7 @@
     <p class="header-desc">Phase-gated. Every milestone is a real deliverable that exists in the world. You don't advance until the gate is cleared — no exceptions.</p>
     <div class="header-stats">
       <div class="stat"><span class="stat-label">Weekly Time</span><span class="stat-value">5–7 hrs</span></div>
-      <div class="stat"><span class="stat-label">Duration</span><span class="stat-value">~18 mo</span></div>
+      <div class="stat"><span class="stat-label">Duration</span><span class="stat-value">~20 mo</span></div>
       <div class="stat"><span class="stat-label">Mo 18 Target</span><span class="stat-value">$15–25K</span></div>
       <div class="stat"><span class="stat-label">Vertical #1</span><span class="stat-value">HVAC/Plmb</span></div>
       <div class="stat"><span class="stat-label">Vertical #2</span><span class="stat-value">Auto Repair</span></div>
@@ -918,7 +918,7 @@
     </div>
     <div class="track"><div class="fill" id="progressFill"></div></div>
     <div class="phase-pills">
-      <a class="phase-pill p1" href="#phase1">Phase 1 <span class="pill-pct" id="p1pct"></span></a>
+      <a class="phase-pill p1" href="#phase1">Builder's Foundation <span class="pill-pct" id="p1pct"></span></a>
       <a class="phase-pill p2" href="#phase2">Phase 2 <span class="pill-pct" id="p2pct"></span></a>
       <a class="phase-pill p3" href="#phase3">Phase 3 <span class="pill-pct" id="p3pct"></span></a>
       <a class="phase-pill p4" href="#phase4">Phase 4 <span class="pill-pct" id="p4pct"></span></a>
@@ -991,14 +991,15 @@
     <div class="phase-header">
       <div class="phase-badge">PHASE 1</div>
       <div class="phase-title-block">
-        <div class="phase-title">Foundation & Vertical Decision</div>
-        <div class="phase-sub">Weeks 1–6 · ~36 hours · No revenue yet · HVAC/Plumbing focus</div>
+        <div class="phase-title">Builder's Foundation</div>
+        <div class="phase-sub">Weeks 1–10 · ~60 hours · No revenue yet · Learn by building the real thing</div>
         <div class="phase-tags">
-          <span class="tag">Technical Setup</span>
-          <span class="tag">Vertical Research</span>
-          <span class="tag">Demo Build</span>
-          <span class="tag">First Outreach</span>
-          <span class="tag">Pricing Design</span>
+          <span class="tag">How APIs Work</span>
+          <span class="tag">Make.com Deep Dive</span>
+          <span class="tag">Claude API</span>
+          <span class="tag">Twilio SMS</span>
+          <span class="tag">Airtable as Database</span>
+          <span class="tag">Debugging</span>
         </div>
       </div>
       <div class="phase-progress-text" id="p1progress">0 / 0</div>
@@ -1007,227 +1008,386 @@
     <div class="gate">
       <div class="gate-icon">🔒</div>
       <div>
-        <div class="gate-label">Phase Gate — Clear Both Before Advancing</div>
-        <div class="gate-title">① A live, working demo automation for a fictional HVAC company: intake form → Claude urgency triage → Twilio SMS → Airtable log. ② You have had at least one real conversation with an HVAC or plumbing business owner about their missed-call problem — logged in the Journal.</div>
+        <div class="gate-label">Phase Gate — Clear All Three Before Advancing</div>
+        <div class="gate-title">① A fully working "Buster's Heating &amp; Air" demo: Tally form → Make.com → Claude urgency triage → Airtable record → Twilio SMS → 3-step follow-up sequence. ② You can explain out loud what each piece does and why, without looking at notes. ③ You have intentionally broken and fixed at least 3 different failure points in the system.</div>
       </div>
     </div>
 
     <div class="weeks-grid" data-phase="1">
 
+      <!-- WEEK 1 -->
       <div class="week">
         <div class="week-header" onclick="toggleWeek(this)">
           <span class="week-num">WK 01</span>
-          <span class="week-title">Environment Setup + Vertical Lock</span>
+          <span class="week-title">How the Internet Actually Works — APIs, JSON, HTTP</span>
           <span class="week-complete-badge">✅</span>
           <span class="week-count" id="wc-0">0/7</span>
           <span class="week-hours">5–6 hrs</span>
           <span class="week-toggle">▼</span>
         </div>
         <div class="week-body">
-          <div class="week-note"><strong>Goal:</strong> Accounts live, vertical committed, first prospect list exists. No building yet — this week is environment and decision.</div>
+          <div class="week-note"><strong>Goal:</strong> Before touching any tools, understand the language everything speaks. APIs, HTTP requests, and JSON are the foundation of everything you'll build. This week is concept-first, then hands-on proof.</div>
           <div class="week-cols">
             <div>
-              <div class="col-header">Setup</div>
+              <div class="col-header">Concepts to Understand</div>
               <ul class="task-list">
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Create Make.com free account. Complete all 3 quickstart scenarios end-to-end (2 hrs)</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Create Airtable free account. Build a "Client Jobs" base: Name, Phone, Address, Service Type, Urgency, Status, Date fields</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Create Twilio trial account. Send yourself a test SMS from the console (no code needed yet)</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Read Avoca AI's homepage + 2 case studies. Note verbatim pain points they name</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>What an API is:</strong> A set of rules that lets two software systems talk to each other. When Make.com sends data to Airtable, it uses Airtable's API. Think of it as a restaurant menu — you order from it, the kitchen responds. Read: "What is an API?" on HowStuffWorks (15 min)</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>HTTP requests:</strong> GET (fetch data), POST (send data), PUT (update), DELETE (remove). You'll mostly use GET and POST. Read the first 2 sections of MDN's "HTTP overview" — stop before "HTTP/2" (20 min)</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>JSON:</strong> The data format APIs speak. It's just key-value pairs: {"name": "Gavin", "service": "HVAC"}. Make.com passes JSON between modules. Write 3 sample JSON objects by hand — a job record, a customer record, an SMS message</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Authentication:</strong> How APIs know who's calling them. API keys (a secret password in the request header) are what you'll use most. Bearer tokens and Basic auth are variations. Read Twilio's "What is an API key?" page (10 min)</span></li>
               </ul>
             </div>
             <div>
-              <div class="col-header">Decide & Research</div>
+              <div class="col-header">Hands-On Proof</div>
               <ul class="task-list">
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Write 1 paragraph: "Why HVAC/plumbing and not auto repair." Save it somewhere permanent. This is your north star when doubt hits</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>List 10 HVAC or plumbing businesses within 30 miles using Google Maps. Find owner names via Google Business Profile or LinkedIn</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Flag any warm contacts — friend, neighbor, referral network, local Facebook group. These are Week 3 targets</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Install <strong>Hoppscotch</strong> (free, browser-based) at hoppscotch.io — this is an API testing tool. Make a GET request to: https://jsonplaceholder.typicode.com/posts/1 — you'll see a real JSON response come back. This is exactly what Make.com does behind the scenes.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Make a POST request in Hoppscotch to https://jsonplaceholder.typicode.com/posts with a JSON body: {"title": "Test Job", "body": "HVAC repair needed", "userId": 1}. See the response. You just made your first API call.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Write in your Journal: "An API is..." in your own words. Then: "JSON is..." Then: "When Make.com sends an SMS, what's actually happening under the hood?" Answer it yourself before moving to Week 2.</span></li>
               </ul>
             </div>
             <div class="deliverable" style="grid-column:1/-1">
               <span class="deliverable-icon">📦</span>
-              <div><strong>Week 1 Deliverable</strong><span>All 3 accounts active and tested. 10-prospect list built with owner names. Vertical commitment written.</span></div>
+              <div><strong>Week 1 Deliverable</strong><span>You've made real API calls in Hoppscotch and can explain GET, POST, JSON, and API keys in plain English without looking anything up.</span></div>
             </div>
           </div>
         </div>
       </div>
 
+      <!-- WEEK 2 -->
       <div class="week">
         <div class="week-header" onclick="toggleWeek(this)">
           <span class="week-num">WK 02</span>
-          <span class="week-title">Build Your First Automation (Intake Flow)</span>
+          <span class="week-title">Make.com Deep Dive — Triggers, Modules, and Data Flow</span>
           <span class="week-complete-badge">✅</span>
-          <span class="week-count" id="wc-1">0/7</span>
+          <span class="week-count" id="wc-1">0/8</span>
           <span class="week-hours">6–7 hrs</span>
           <span class="week-toggle">▼</span>
         </div>
         <div class="week-body">
-          <div class="week-note"><strong>Goal:</strong> A real, working Make.com scenario that captures a service request, runs it through Claude, and logs it. Ugly is fine. <em>Working is required.</em></div>
+          <div class="week-note"><strong>Goal:</strong> Understand Make.com from the inside out — not just how to click buttons, but why it works the way it does. By end of week you can build any basic scenario from scratch and explain every decision.</div>
           <div class="week-cols">
             <div>
-              <div class="col-header">Build</div>
+              <div class="col-header">How Make.com Actually Works</div>
               <ul class="task-list">
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Build Make scenario: Tally (free) form submission → new Airtable record created (1.5 hrs)</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Add Twilio SMS step: when record created, send SMS to your number: "New job: [Name] — [Service Type] — [Address]"</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Add Claude API module: classify urgency from the free-text description field → "Emergency / Routine / Quote Request" → write to Airtable Status field</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Test end-to-end 5 times with varied inputs. Fix every failure before moving on</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Triggers vs. Actions:</strong> Every scenario starts with one trigger (the event that fires it) and can have unlimited action modules after it. The trigger is always the first bubble. Create a free Make.com account if you haven't. Go to "Create a new scenario" and just look at the empty canvas for 2 minutes — notice the + button and the trigger placeholder.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Build Scenario #1 — Webhook to email:</strong> Add a "Webhooks" trigger (custom webhook). Copy the webhook URL Make gives you. Paste it into your browser address bar and add ?name=Gavin&service=HVAC at the end. Hit enter. Watch Make receive the data. Add a "Gmail" or "Email" action to send yourself the data. You just built a real trigger-action scenario.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Data mapping:</strong> In Make, when you click a field in one module, you can insert data from a previous module using the blue tokens. This is called mapping. In your email action, map the "name" and "service" values from the webhook into the email subject. This is the core skill in all of Make.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Filters and routers:</strong> Add a Filter between your webhook trigger and email action. Set it to only proceed if "service" equals "HVAC". Test it with service=HVAC (passes) then service=plumbing (stops). Now add a Router module — this sends data down different paths based on conditions. Understand why you'd use a filter vs. a router.</span></li>
               </ul>
             </div>
             <div>
-              <div class="col-header">Learn</div>
+              <div class="col-header">The HTTP Module — Your Most Important Tool</div>
               <ul class="task-list">
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Read Anthropic's Messages API quickstart. Understand: system prompt, user message, max_tokens, temperature. Don't memorize — just understand the shape</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Watch Make.com "HTTP Module" tutorial (official docs). This is how you'll call any API including Claude</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Document every step you built in a Google Doc — this becomes your delivery template for client #1</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Why the HTTP module matters:</strong> Make has 1,000+ pre-built integrations, but the HTTP module lets you connect to ANY API that exists — including ones Make doesn't have a native module for. This is what you'll use for Claude. Add an HTTP module to a scenario. Look at all the fields: URL, Method, Headers, Body. These map directly to what you learned in Week 1.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Build Scenario #2 — HTTP to a real API:</strong> Use the HTTP module to call https://jsonplaceholder.typicode.com/posts/1 (GET request, no auth needed). Map the "title" field from the response into a text aggregator or set variable. You're now calling an external API from inside Make.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Reading scenario execution history:</strong> Run your scenario, then click the numbered bubble that appears on each module. This shows you exactly what data went in and what came out. This is your primary debugging tool — you'll live here when things break. Spend 10 minutes just clicking through execution history on a successful run.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Write in Journal: Draw the data flow of your webhook scenario on paper — what enters each module, what leaves it, what gets filtered or transformed. Then explain Make.com to someone (or yourself out loud) as if they've never heard of it.</span></li>
               </ul>
             </div>
             <div class="deliverable" style="grid-column:1/-1">
               <span class="deliverable-icon">📦</span>
-              <div><strong>Week 2 Deliverable</strong><span>Working intake flow: Form → Claude urgency triage → Airtable record → SMS alert to owner's phone.</span></div>
+              <div><strong>Week 2 Deliverable</strong><span>2 working scenarios built. You can explain triggers, actions, data mapping, filters, routers, and the HTTP module from first principles. You've read execution history on both scenarios.</span></div>
             </div>
           </div>
         </div>
       </div>
 
+      <!-- WEEK 3 -->
       <div class="week">
         <div class="week-header" onclick="toggleWeek(this)">
           <span class="week-num">WK 03</span>
-          <span class="week-title">Follow-Up Sequence + First Real Conversation</span>
+          <span class="week-title">Airtable as a Real Database — Not a Spreadsheet</span>
           <span class="week-complete-badge">✅</span>
           <span class="week-count" id="wc-2">0/7</span>
-          <span class="week-hours">6–7 hrs</span>
+          <span class="week-hours">5–6 hrs</span>
           <span class="week-toggle">▼</span>
         </div>
         <div class="week-body">
-          <div class="week-note"><strong>Goal:</strong> Add post-job follow-up. Make your first real prospect conversation this week — before the demo is perfect. The conversation informs the demo, not the other way around.</div>
+          <div class="week-note"><strong>Goal:</strong> Most people use Airtable like a prettier spreadsheet. You're going to use it like a database — with proper field types, relational links, views, and API access. This is the data layer for everything you build.</div>
           <div class="week-cols">
             <div>
-              <div class="col-header">Build</div>
+              <div class="col-header">Database Thinking vs. Spreadsheet Thinking</div>
               <ul class="task-list">
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Build 3-step SMS follow-up in Make using delay/scheduler modules: Day 0 ("Thanks for calling [Business]!"), Day 1 ("How did your service go? Any issues?"), Day 3 (Google review request with direct link)</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Personalize messages using Airtable data: customer first name, service type pulled into the SMS text</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Test all 3 delays fire correctly. Set delays to 1 minute for testing, then restore to actual values</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Why this distinction matters:</strong> In a spreadsheet you repeat data (customer name in every row). In a database you store it once and reference it. Airtable lets you do both, but treating it as a database makes your automations cleaner, faster, and easier to debug. Read Airtable's "Linked records" guide (15 min).</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Build your HVAC data structure:</strong> Create a new base called "Buster's H&amp;A — Operations". Create 2 tables: "Customers" (Name, Phone, Email, Address, Created Date) and "Jobs" (Job ID, Customer link, Service Type, Urgency, Status, Notes, Date Created, Follow-Up Sent). The Jobs table links to Customers — one customer can have many jobs. This is a one-to-many relationship.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Field types matter:</strong> Use Single line text, Phone, Email, Date, Single select (for Status and Urgency — not free text), Linked record (for Customer), Checkbox (for Follow-Up Sent). Each field type validates and formats data differently. Wrong field type = broken automations later. Set up all fields with the correct types.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Views:</strong> Create 3 views in the Jobs table: Grid (all jobs), Gallery filtered to Status = "New" (incoming queue), and a Kanban grouped by Status. Views don't change the data — they change how you see it. Your clients will use these to manage their business.</span></li>
               </ul>
             </div>
             <div>
-              <div class="col-header">Sell & Research</div>
+              <div class="col-header">Airtable's API — How Make Talks to It</div>
               <ul class="task-list">
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Contact one warm prospect from your Week 1 list. Script: "Hey [Name], quick question — when your guys are on a job, do calls ever go unanswered?" (Text or call, not email)</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Write down every word they say about the problem verbatim. These quotes become your pitch copy</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Sketch your service package on paper: what's included, what's not, rough price range. Commit nothing — just think it through</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Log this conversation in the Journal below with date, name, and 3 key things they said</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Get your Airtable API key and Base ID:</strong> Go to airtable.com/create/tokens → create a personal access token with scopes: data.records:read, data.records:write, schema.bases:read. Also find your Base ID in the URL when viewing your base (starts with "app"). Write both down — you'll need them in Week 5.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Test the Airtable API directly in Hoppscotch:</strong> Make a GET request to https://api.airtable.com/v0/YOUR_BASE_ID/Jobs — add a Header: Authorization: Bearer YOUR_TOKEN. You'll get back JSON of your records. This is exactly what Make does when it reads from Airtable. You're seeing behind the curtain.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Now make a POST request to create a new record in Jobs via Hoppscotch. Body: {"fields": {"Service Type": "AC Repair", "Urgency": "Emergency", "Status": "New"}}. Check your Airtable base — the record appeared. You just wrote data to a database with an API call. This is what your automation will do thousands of times.</span></li>
               </ul>
             </div>
             <div class="deliverable" style="grid-column:1/-1">
               <span class="deliverable-icon">📦</span>
-              <div><strong>Week 3 Deliverable</strong><span>Working follow-up sequence. Notes from one real prospect conversation logged in Journal.</span></div>
+              <div><strong>Week 3 Deliverable</strong><span>Buster's H&amp;A Airtable base built with correct field types, linked records, and 3 views. You've read and written records via the Airtable API directly in Hoppscotch.</span></div>
             </div>
           </div>
         </div>
       </div>
 
+      <!-- WEEK 4 -->
       <div class="week">
         <div class="week-header" onclick="toggleWeek(this)">
           <span class="week-num">WK 04</span>
-          <span class="week-title">Demo Build "Buster's H&A" + Lock Pricing</span>
+          <span class="week-title">The Claude API — How AI Fits Into an Automation</span>
           <span class="week-complete-badge">✅</span>
-          <span class="week-count" id="wc-3">0/6</span>
+          <span class="week-count" id="wc-3">0/8</span>
           <span class="week-hours">6–7 hrs</span>
           <span class="week-toggle">▼</span>
         </div>
         <div class="week-body">
-          <div class="week-note"><strong>Goal:</strong> Create a named demo environment you can show prospects. Price locked by end of week — not a range, an actual number.</div>
+          <div class="week-note"><strong>Goal:</strong> Understand exactly how Claude works as an API — not as a chat interface. Learn how system prompts control behavior, how to structure requests for reliable outputs, and why this is the intelligence layer that makes your automations smarter than anyone else's.</div>
           <div class="week-cols">
             <div>
-              <div class="col-header">Build Demo</div>
+              <div class="col-header">How the Claude API Works</div>
               <ul class="task-list">
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Clone your automation under fictional brand "Buster's Heating & Air" — real Twilio number, real Airtable base, real branded SMS messages</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Record a 3-minute Loom walkthrough showing a job coming in, Claude triaging it, SMS firing, then follow-ups. Practice until one clean take. No "um"s over 3.</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Build a simple demo page on Carrd (free): what the system does, the Loom embed, a "Book a call" link (Calendly free tier)</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>The Messages API structure:</strong> Every Claude API call has 3 parts — a model (which Claude version), a system prompt (permanent instructions that shape every response), and a messages array (the conversation). Read the Anthropic Messages API overview at docs.anthropic.com — focus on the "Request body" section. Don't skip this — it's 20 minutes that saves hours of confusion later.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Get your API key:</strong> Go to console.anthropic.com → API Keys → Create Key. Copy it somewhere safe. This key costs money per call (fractions of a cent each) — you'll use haiku-4-5 model which is the fastest and cheapest for automation tasks.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Make your first Claude API call in Hoppscotch:</strong> POST to https://api.anthropic.com/v1/messages. Headers: x-api-key: YOUR_KEY, anthropic-version: 2023-06-01, Content-Type: application/json. Body: {"model": "claude-haiku-4-5-20251001", "max_tokens": 100, "messages": [{"role": "user", "content": "Classify this service request as Emergency, Routine, or Quote: My AC stopped working and it's 95 degrees outside"}]}. Read the response — find the "text" field inside "content". That's your output.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>System prompts — the most important concept:</strong> A system prompt tells Claude who it is and how to behave in every message. Without one, Claude is a general assistant. With one, it's a specialized tool that outputs exactly what your automation needs. Add a "system" field to your request body: "You are a job triage assistant for an HVAC company. Classify service requests as exactly one of: Emergency, Routine, or Quote. Respond with only the classification word, nothing else." Now your Claude call returns a single clean word your automation can act on.</span></li>
               </ul>
             </div>
             <div>
-              <div class="col-header">Package & Price</div>
+              <div class="col-header">Prompt Engineering for Automation</div>
               <ul class="task-list">
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Lock Tier 1: $750 setup fee + $650/mo retainer. Write the exact included scope: intake triage, 3-step SMS follow-up, Google review request, Airtable job log, monthly 15-min check-in call</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Write your one-line pitch using their words from Week 3: "[their pain] — I built a system that fixes that automatically for HVAC shops."</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Create a 1-page Google Doc proposal template: problem, solution, what's included, price, how it works, next step</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Why automation prompts are different from chat prompts:</strong> In chat you want rich, conversational responses. In automation you want predictable, structured outputs your code can parse. Key rules: (1) Tell Claude the exact format to respond in. (2) Give examples of correct output. (3) Tell it what to do when uncertain. (4) Never let it add explanations you didn't ask for.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Test your urgency classifier with 10 inputs:</strong> Try varied service requests — some clearly emergency, some routine, some ambiguous. Does Claude always return exactly one clean word? If not, tighten the system prompt. Add: "If you are uncertain, classify as Routine. Never add explanations, punctuation, or extra words." Test until 10/10 return clean single-word responses.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Build a second prompt — SMS personalizer:</strong> System prompt: "You write short, friendly SMS messages for an HVAC company. Write a 1-sentence follow-up message using the customer's first name and the service type they received. Maximum 160 characters. No emojis." User message: "Customer: Sarah. Service: furnace tune-up." Test it. You now have a reusable AI module for personalizing any message.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Write in Journal: What's the difference between a system prompt and a user message? Why does max_tokens matter in automation? What happens if Claude exceeds 160 characters on an SMS — and how does your system prompt prevent it?</span></li>
               </ul>
             </div>
             <div class="deliverable" style="grid-column:1/-1">
               <span class="deliverable-icon">📦</span>
-              <div><strong>Week 4 Deliverable</strong><span>Buster's demo live. Loom recorded. Pricing locked at $750 setup + $650/mo. 1-page proposal template ready.</span></div>
+              <div><strong>Week 4 Deliverable</strong><span>Two working Claude API calls in Hoppscotch: urgency classifier (returns single word reliably) and SMS personalizer (under 160 chars). You can explain what a system prompt does and why it matters for automation.</span></div>
             </div>
           </div>
         </div>
       </div>
 
+      <!-- WEEK 5 -->
       <div class="week">
         <div class="week-header" onclick="toggleWeek(this)">
           <span class="week-num">WK 05</span>
-          <span class="week-title">Outreach Blitz — 5 Real Conversations</span>
+          <span class="week-title">Twilio SMS — How Programmable Messaging Works</span>
           <span class="week-complete-badge">✅</span>
-          <span class="week-count" id="wc-4">0/6</span>
+          <span class="week-count" id="wc-4">0/7</span>
           <span class="week-hours">5–6 hrs</span>
           <span class="week-toggle">▼</span>
         </div>
         <div class="week-body">
-          <div class="week-note"><strong>Goal:</strong> 5 real owner conversations this week. Show the Loom to anyone who shows any interest. Zero pitch pressure — pure discovery and proof of life.</div>
+          <div class="week-note"><strong>Goal:</strong> Understand Twilio's architecture — phone numbers, messaging services, webhooks for inbound messages — and send your first programmatic SMS. This is the piece that makes your system feel real to clients.</div>
           <div class="week-cols">
             <div>
-              <div class="col-header">Outreach</div>
+              <div class="col-header">How Twilio Works Under the Hood</div>
               <ul class="task-list">
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Send 10 personalized messages to HVAC/plumbing owners in Utah. Script: "Hey [Name], I help HVAC shops catch the calls they miss when techs are on jobs. Built a system that does it automatically — mind if I send you a 3-min demo video?" Keep it short.</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>For any "sure" or "what is it" response: reply with Loom link within 1 hour. Attach the demo page URL.</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Complete 5 real conversations (phone, video, or in person). Log every one in Airtable or a note: name, channel, what they said</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Twilio's architecture:</strong> Twilio is a telecom API company. They own phone number infrastructure globally. You rent a number from them ($1/mo), then use their API to send/receive SMS, calls, and WhatsApp from that number. Your automation talks to Twilio's API → Twilio delivers to the carrier → carrier delivers to the customer's phone. Create a free Twilio trial account at twilio.com.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Key Twilio concepts:</strong> Account SID (your account identifier), Auth Token (your API password — never expose this publicly), From number (the Twilio number you send from), To number (the recipient). Get your Account SID and Auth Token from the Twilio Console dashboard. Buy a trial phone number (free on trial account).</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Send your first SMS via Hoppscotch:</strong> POST to https://api.twilio.com/2010-04-01/Accounts/YOUR_ACCOUNT_SID/Messages.json. Auth: Basic auth with Account SID as username, Auth Token as password. Body (form-encoded, not JSON — Twilio uses form data): To=YOUR_MOBILE_NUMBER&From=YOUR_TWILIO_NUMBER&Body=Hello from Buster's H&A — your job has been received. You should receive a real SMS on your phone within seconds.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Inbound messages and webhooks:</strong> When a customer texts your Twilio number back, Twilio sends a webhook (a POST request with the message data) to a URL you configure. This is how you'd build a two-way conversation. In Twilio Console → Phone Numbers → your number → Messaging → set the webhook URL to your Make.com webhook URL from Week 2. Now any text to that number fires your Make scenario.</span></li>
               </ul>
             </div>
             <div>
-              <div class="col-header">Learn & Iterate</div>
+              <div class="col-header">Twilio in Practice</div>
               <ul class="task-list">
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>After conversations 3 and 5: rewrite your outreach script based on patterns. What question got the most engagement? Use it.</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Note every objection you hear. Log it in the Objections section (in your proposal doc) with your answer attempt</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Log all 5 conversation summaries in Journal below</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Character limits and encoding:</strong> Standard SMS is 160 characters. Messages over 160 are split into segments and each costs separately. Unicode characters (emojis, curly quotes) reduce the limit to 70 characters per segment. This is why your Claude SMS prompt specifies "no emojis" and "maximum 160 characters" — you're protecting your client's costs.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Opt-out compliance:</strong> TCPA law requires that any marketing SMS include opt-out language ("Reply STOP to unsubscribe") and that you honor STOP replies. Twilio handles STOP responses automatically — they blacklist the number. Your follow-up messages should include "Reply STOP to opt out" in the first message of any sequence. This is a best practice you'll teach clients.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Write in Journal: What's the difference between a Twilio webhook (inbound) and a Twilio API call (outbound)? Why does SMS character limit matter for your Claude prompt design? What would happen to your client's Twilio bill if someone used emojis in every message?</span></li>
               </ul>
             </div>
             <div class="deliverable" style="grid-column:1/-1">
               <span class="deliverable-icon">📦</span>
-              <div><strong>Week 5 Deliverable</strong><span>5 conversations logged. At least 1 "show me more" response. Updated outreach script.</span></div>
+              <div><strong>Week 5 Deliverable</strong><span>Real SMS sent to your phone from Twilio via Hoppscotch. Twilio webhook configured to trigger your Make scenario. You can explain SMS segments, TCPA compliance, and why opt-out language is non-negotiable.</span></div>
             </div>
           </div>
         </div>
       </div>
 
+      <!-- WEEK 6 -->
       <div class="week">
         <div class="week-header" onclick="toggleWeek(this)">
           <span class="week-num">WK 06</span>
-          <span class="week-title">Close Attempt + Phase Gate Review</span>
+          <span class="week-title">Connect Everything — Build the Full Intake System</span>
           <span class="week-complete-badge">✅</span>
-          <span class="week-count" id="wc-5">0/6</span>
+          <span class="week-count" id="wc-5">0/7</span>
+          <span class="week-hours">6–7 hrs</span>
+          <span class="week-toggle">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="week-note"><strong>Goal:</strong> Wire everything you've learned into one Make.com scenario. Form → Claude triage → Airtable record → Twilio SMS to owner. Every module connects to the next. By end of week this is a working, integrated system.</div>
+          <div class="week-cols">
+            <div>
+              <div class="col-header">Build the Intake Scenario</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Create a Tally form</strong> for "Buster's H&amp;A" with fields: First Name, Phone Number, Address, Describe the issue (long text), How urgent does this feel? (dropdown: Emergency / Not sure / Can wait). Publish the form and copy its webhook URL into a Make Tally trigger.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Add the Claude HTTP module:</strong> POST to Anthropic API. System prompt: "You are a job triage assistant for an HVAC company. Given a customer's issue description and self-reported urgency, return exactly one word: Emergency, Routine, or Quote. Emergency = safety risk or total system failure. Routine = maintenance or minor repair. Quote = new installation or major work request. No other output." Map the Tally description field into the user message.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Add the Airtable HTTP module:</strong> POST to your Airtable Jobs table. Map fields: Service Type from Tally dropdown, Urgency from Claude's response text, Status = "New" (hardcoded), Customer name and phone from Tally. Create the record.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Add the Twilio HTTP module:</strong> POST to Twilio Messages API. To = your phone number (hardcoded for now). From = your Twilio number. Body = "🔧 New job — [Customer Name] at [Address]. Issue: [Description]. AI Urgency: [Claude output]. Call to confirm." Map all values from earlier modules.</span></li>
+              </ul>
+            </div>
+            <div>
+              <div class="col-header">Test and Verify</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Submit the Tally form 5 times with different scenarios: one clear emergency (no heat in winter), one routine (annual tune-up), one quote request (new system install), one ambiguous, one with missing fields. Check: Did all 5 create Airtable records? Did Claude classify each correctly? Did the SMS arrive each time?</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Click through execution history for each run. Find the data at every step. For any failed run — identify exactly which module failed and why before fixing it. Don't guess — read the error message in the execution history.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Write in Journal: Which module was hardest to configure? What was the most confusing error you hit? How did you figure out what was wrong? These become your best practice talking points with clients.</span></li>
+              </ul>
+            </div>
+            <div class="deliverable" style="grid-column:1/-1">
+              <span class="deliverable-icon">📦</span>
+              <div><strong>Week 6 Deliverable</strong><span>Full intake scenario working end-to-end. 5 test submissions with all 5 creating Airtable records, correct Claude classifications, and SMS alerts. Execution history reviewed for every run.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WEEK 7 -->
+      <div class="week">
+        <div class="week-header" onclick="toggleWeek(this)">
+          <span class="week-num">WK 07</span>
+          <span class="week-title">Build the Follow-Up Sequence + Review Request</span>
+          <span class="week-complete-badge">✅</span>
+          <span class="week-count" id="wc-6">0/6</span>
           <span class="week-hours">5–6 hrs</span>
           <span class="week-toggle">▼</span>
         </div>
         <div class="week-body">
-          <div class="week-note"><strong>Goal:</strong> Push any warm prospects toward a decision. Run an honest Phase 1 retrospective. Gate check — you don't advance until both gate conditions are real.</div>
+          <div class="week-note"><strong>Goal:</strong> Build a second scenario that runs on a schedule — reading Airtable for jobs that need follow-up and sending timed SMS sequences. This introduces scheduled triggers, Airtable reads, and multi-step logic.</div>
           <div class="week-cols">
             <div>
-              <div class="col-header">Close</div>
+              <div class="col-header">The Follow-Up Scenario</div>
               <ul class="task-list">
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Follow up every "interested" prospect with a pilot offer: "I'll set it up free for 2 weeks. If you don't see results, you owe me nothing — and I just ask for honest feedback and permission to use the numbers in a case study."</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>If no takers yet: expand to 10 more prospects. Not a failure — pipeline is a numbers game at this stage</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>If someone says yes to pilot: deploy immediately and skip to Phase 2 gate. You've earned it.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>How scheduled scenarios work:</strong> This scenario doesn't wait for a form submission. It runs every hour (or day), reads Airtable for records that match certain conditions, and acts on them. Trigger: Make "Schedule" module set to run every 1 hour. This is a polling pattern — common in automation.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Add Airtable "Search Records" module:</strong> Search your Jobs table for records where Status = "Complete" AND Follow-Up Sent = false (unchecked). These are jobs that are done but haven't been followed up yet. Map the results through an Iterator module (this processes multiple records one at a time).</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Send the follow-up SMS:</strong> For each record, send a Twilio SMS to the customer's phone: "Hi [First Name], thanks for choosing Buster's Heating &amp; Air! How did your [Service Type] service go? Reply anytime if you have questions." Then update the Airtable record: set Follow-Up Sent = true so it won't send again.</span></li>
               </ul>
             </div>
             <div>
-              <div class="col-header">Retrospective</div>
+              <div class="col-header">Review Request + Timing</div>
               <ul class="task-list">
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Write Phase 1 review in Journal: What did you build? What worked in outreach? What flopped? What would you do differently in Week 1–6?</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Gate check — be honest: Is the demo live and working? Did a real owner conversation happen and get logged? Both yes → Phase 2. One or both no → name the specific gap and fix it this week before advancing.</span></li>
-                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Celebrate what you actually built. A working AI automation and a real outreach campaign in 6 weeks at 5 hrs/week is real. Acknowledge it before moving.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Add a date-based filter for the review request:</strong> Add a second path after the follow-up. Check if the job's Date Created was 3 days ago (use Make's date functions: formatDate and now). If yes, send a second SMS: "Hi [First Name], if Buster's took good care of you, a quick Google review means the world to a small business: [Google Review URL]. Thanks!"</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Test by manually setting a job's Status to "Complete", Follow-Up Sent to false, and Date Created to 3 days ago. Run the scenario manually (don't wait for the scheduler). Confirm both SMS messages fire correctly and the Airtable record updates.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Write in Journal: Why does the "Update Record" step (setting Follow-Up Sent = true) happen AFTER the SMS sends and not before? What would go wrong if you reversed the order? This is a sequencing principle that matters in every automation you'll ever build.</span></li>
+              </ul>
+            </div>
+            <div class="deliverable" style="grid-column:1/-1">
+              <span class="deliverable-icon">📦</span>
+              <div><strong>Week 7 Deliverable</strong><span>Follow-up scenario working: reads Airtable on schedule, sends Day 0 thank-you SMS and Day 3 review request, updates record to prevent duplicate sends.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WEEK 8 -->
+      <div class="week">
+        <div class="week-header" onclick="toggleWeek(this)">
+          <span class="week-num">WK 08</span>
+          <span class="week-title">Debugging — How to Find and Fix Anything That Breaks</span>
+          <span class="week-complete-badge">✅</span>
+          <span class="week-count" id="wc-7">0/7</span>
+          <span class="week-hours">5–6 hrs</span>
+          <span class="week-toggle">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="week-note"><strong>Goal:</strong> Deliberately break your system in 5 different ways and fix each one. This is the most valuable week in the program. Every client conversation where you say "I know exactly why that broke and how to fix it" comes from this practice.</div>
+          <div class="week-cols">
+            <div>
+              <div class="col-header">Break It On Purpose</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Break #1 — Bad API key:</strong> Replace your Anthropic API key in the HTTP module with a wrong value. Run the scenario. Read the error in execution history — what does a 401 Unauthorized error look like? Fix it. Now you'll recognize auth errors instantly in real deployments.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Break #2 — Empty required field:</strong> Submit the Tally form without filling in the phone number. What happens in Make? Does the scenario fail, skip, or create a record with an empty field? Add a filter after the Tally trigger: only proceed if Phone Number is not empty. Test it. This is input validation — you'll add it to every client system.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Break #3 — Airtable field name mismatch:</strong> In your Airtable HTTP module, change "Service Type" to "service type" (lowercase). Run it. Read the error. Fix it. Field names in Airtable's API are case-sensitive — this is one of the most common real-world bugs you'll encounter.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Break #4 — Claude returns unexpected output:</strong> Remove the strict formatting instruction from your system prompt ("No other output"). Submit a form with an ambiguous description. Does Claude add explanation text? How does that break your Airtable urgency field? Restore the strict prompt. This demonstrates why prompt precision matters.</span></li>
+              </ul>
+            </div>
+            <div>
+              <div class="col-header">Debug Methodology</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Break #5 — Twilio wrong number format:</strong> Change the "To" phone number to a format without the country code (use 8015551234 instead of +18015551234). What error does Twilio return? Fix it. Phone number formatting is a consistent source of client bugs — you now know to always verify +1 country code prefix.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Add error handlers:</strong> In Make, right-click on a module → Add error handler → Ignore (for non-critical steps like SMS — you don't want the whole scenario to fail if one SMS doesn't send). Add a separate error notification: if the Airtable write fails, send yourself an email with the error details. This is how professional systems handle failure gracefully.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Write in Journal: Create a personal "Break/Fix log" — for each of the 5 breaks, write: what the error message said, what the actual cause was, and what you changed to fix it. This document is gold when you're supporting client systems at 10pm.</span></li>
+              </ul>
+            </div>
+            <div class="deliverable" style="grid-column:1/-1">
+              <span class="deliverable-icon">📦</span>
+              <div><strong>Week 8 Deliverable</strong><span>5 intentional breaks identified and fixed. Error handlers added to scenario. Personal break/fix log written with all 5 scenarios documented.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WEEK 9 -->
+      <div class="week">
+        <div class="week-header" onclick="toggleWeek(this)">
+          <span class="week-num">WK 09</span>
+          <span class="week-title">Polish the Demo + Build the Auto Repair Variant</span>
+          <span class="week-complete-badge">✅</span>
+          <span class="week-count" id="wc-16">0/6</span>
+          <span class="week-hours">6–7 hrs</span>
+          <span class="week-toggle">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="week-note"><strong>Goal:</strong> Finalize "Buster's H&amp;A" as a polished, client-ready demo. Then adapt it for auto repair to prove you understand how to generalize the system — not just copy it.</div>
+          <div class="week-cols">
+            <div>
+              <div class="col-header">Polish Buster's Demo</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Make every SMS message sound like a real HVAC company — use the business name, keep tone warm but professional, verify nothing is over 160 characters, verify opt-out language is in the first follow-up message</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Add a "Status" workflow: when a job is created it's "New". Add a Make scenario triggered by an Airtable webhook (Airtable → Automations → when record updated) that sends a confirmation SMS to the customer when Status changes to "Confirmed". This closes the loop for the customer.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Record a 4-minute Loom of the full system end-to-end: submit the form, show Claude's triage in execution history, show the Airtable record created, show the SMS arriving on your phone, show the follow-up sequence in the scheduler. Practice until you can narrate each step clearly and confidently.</span></li>
+              </ul>
+            </div>
+            <div>
+              <div class="col-header">Auto Repair Variant</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Clone your Airtable base for "Rivera's Auto Repair." Add fields: Vehicle Year, Make, Model, Mileage. Change Service Type options to: Oil Change, Brake Service, Transmission, Electrical, Diagnostic, Other.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Update the Claude system prompt for auto repair context: "You are a service advisor for an auto repair shop. Classify the job as: Urgent (safety issue — brakes, steering, no-start), Scheduled (maintenance — oil change, tires, filters), or Estimate (major work needing a quote). Return only the classification word."</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Add a 60-day maintenance reminder: a scheduled Make scenario that checks Jobs for oil change records where Date Created was 60 days ago and sends: "Hi [Name], your [Year] [Make] [Model] is due for its next oil change. Want to book? Reply YES and we'll get you scheduled." This is a feature HVAC doesn't have — you just expanded your differentiation.</span></li>
+              </ul>
+            </div>
+            <div class="deliverable" style="grid-column:1/-1">
+              <span class="deliverable-icon">📦</span>
+              <div><strong>Week 9 Deliverable</strong><span>Buster's demo polished and Loom recorded. Auto repair variant built with vehicle fields, adapted Claude prompt, and 60-day maintenance reminder sequence.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WEEK 10 -->
+      <div class="week">
+        <div class="week-header" onclick="toggleWeek(this)">
+          <span class="week-num">WK 10</span>
+          <span class="week-title">Teach It Back + Phase Gate</span>
+          <span class="week-complete-badge">✅</span>
+          <span class="week-count" id="wc-9">0/5</span>
+          <span class="week-hours">4–5 hrs</span>
+          <span class="week-toggle">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="week-note"><strong>Goal:</strong> The ultimate test of understanding is being able to teach it. This week you explain the entire system out loud — every component, every decision, every tradeoff — as if you're talking to a prospective client who asked "how does this actually work?"</div>
+          <div class="week-cols">
+            <div>
+              <div class="col-header">Teach-Back Exercise</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>The 10-minute verbal explanation:</strong> Set a timer. Explain the full system out loud to yourself, a friend, or record a Loom. Cover: what triggers it, how Make processes the data, what Claude does and why it's reliable, how Airtable stores it, how Twilio delivers the message, and what happens when something breaks. Don't look at notes. If you get stuck — that's the gap. Go back to that week and fill it.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>Answer these 5 questions without looking anything up:</strong> (1) What does a 401 error from an API mean? (2) Why do you set Follow-Up Sent = true AFTER sending the SMS? (3) What makes a system prompt different from a user message in the Claude API? (4) What's the max length of a standard SMS and why does it matter for your Twilio cost? (5) What's the difference between a Make filter and a Make router?</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span><strong>The "what if" test:</strong> Answer out loud — "What if the client's customer sends back a text after the follow-up?" (Twilio inbound webhook → new Make scenario). "What if Claude classifies something wrong?" (Human review queue in Airtable + notification to owner). "What if Make goes down?" (Error handler emails you + Twilio logs all outbound messages). These become your best practice answers with clients.</span></li>
+              </ul>
+            </div>
+            <div>
+              <div class="col-header">Gate Check</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Gate check #1: Open Make.com. Without referring to any notes, describe out loud what each module in your scenario does and why it's in that position. If you can't explain a module, you don't understand it yet — spend another session on that week before advancing.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Gate check #2 — Break/fix final: Introduce one new deliberate break you haven't seen before. Diagnose and fix it using only the execution history — no Googling allowed for the first 10 minutes. This simulates a real client incident at 9pm.</span></li>
               </ul>
             </div>
             <div class="deliverable" style="grid-column:1/-1">
               <span class="deliverable-icon">🔓</span>
-              <div><strong>Phase 1 Gate</strong><span>Demo live + real owner conversation → Phase 2 unlocked. Written retro logged in Journal.</span></div>
+              <div><strong>Phase 1 Gate</strong><span>Full system built and working for both verticals. 5 questions answered without notes. Break/fix log with 6+ entries. Teach-back Loom or verbal explanation completed. → Phase 2 unlocked.</span></div>
             </div>
           </div>
         </div>
@@ -1237,12 +1397,13 @@
   </div>
 
   <!-- ════════ PHASE 2 ════════ -->
+  <!-- ════════ PHASE 2 ════════ -->
   <div class="phase phase-2" id="phase2">
     <div class="phase-header">
       <div class="phase-badge">PHASE 2</div>
       <div class="phase-title-block">
         <div class="phase-title">First Paying Client</div>
-        <div class="phase-sub">Weeks 7–12 · ~36 hours · Target: $650–800 MRR · 1 paying client</div>
+        <div class="phase-sub">Weeks 11–16 · ~36 hours · Target: $650–800 MRR · 1 paying client</div>
         <div class="phase-tags">
           <span class="tag">Sales Close</span>
           <span class="tag">Live Deployment</span>
@@ -1269,7 +1430,7 @@
           <span class="week-num">WK 07–08</span>
           <span class="week-title">Close & Deploy First Client</span>
           <span class="week-complete-badge">✅</span>
-          <span class="week-count" id="wc-6">0/8</span>
+          <span class="week-count" id="wc-10">0/8</span>
           <span class="week-hours">12 hrs</span>
           <span class="week-toggle">▼</span>
         </div>
@@ -1306,7 +1467,7 @@
           <span class="week-num">WK 09–10</span>
           <span class="week-title">Monitor, Fix, and Track Results</span>
           <span class="week-complete-badge">✅</span>
-          <span class="week-count" id="wc-7">0/6</span>
+          <span class="week-count" id="wc-15">0/6</span>
           <span class="week-hours">10 hrs</span>
           <span class="week-toggle">▼</span>
         </div>
@@ -1341,7 +1502,7 @@
           <span class="week-num">WK 11–12</span>
           <span class="week-title">Case Study + Referral Ask + Gate Check</span>
           <span class="week-complete-badge">✅</span>
-          <span class="week-count" id="wc-8">0/6</span>
+          <span class="week-count" id="wc-16">0/6</span>
           <span class="week-hours">10 hrs</span>
           <span class="week-toggle">▼</span>
         </div>
@@ -1407,7 +1568,7 @@
           <span class="week-num">MO 03–05</span>
           <span class="week-title">Clients 2 & 3 — Productize Deployment</span>
           <span class="week-complete-badge">✅</span>
-          <span class="week-count" id="wc-9">0/7</span>
+          <span class="week-count" id="wc-13">0/7</span>
           <span class="week-hours">~36 hrs</span>
           <span class="week-toggle">▼</span>
         </div>
@@ -1443,7 +1604,7 @@
           <span class="week-num">MO 06–08</span>
           <span class="week-title">Clients 4 & 5 + Auto Repair Variant</span>
           <span class="week-complete-badge">✅</span>
-          <span class="week-count" id="wc-10">0/7</span>
+          <span class="week-count" id="wc-14">0/7</span>
           <span class="week-hours">~60 hrs</span>
           <span class="week-toggle">▼</span>
         </div>
@@ -1479,7 +1640,7 @@
           <span class="week-num">MO 09</span>
           <span class="week-title">Playbook + LinkedIn Reposition + Gate Check</span>
           <span class="week-complete-badge">✅</span>
-          <span class="week-count" id="wc-11">0/6</span>
+          <span class="week-count" id="wc-15">0/6</span>
           <span class="week-hours">~24 hrs</span>
           <span class="week-toggle">▼</span>
         </div>
@@ -1545,7 +1706,7 @@
           <span class="week-num">MO 10–12</span>
           <span class="week-title">Premium Offer Design + Mid-Market Outreach</span>
           <span class="week-complete-badge">✅</span>
-          <span class="week-count" id="wc-12">0/6</span>
+          <span class="week-count" id="wc-16">0/6</span>
           <span class="week-hours">~30 hrs</span>
           <span class="week-toggle">▼</span>
         </div>
@@ -1580,7 +1741,7 @@
           <span class="week-num">MO 13–18</span>
           <span class="week-title">Close Mid-Market + Delegate SMB + Decide</span>
           <span class="week-complete-badge">✅</span>
-          <span class="week-count" id="wc-13">0/6</span>
+          <span class="week-count" id="wc-17">0/6</span>
           <span class="week-hours">~60 hrs</span>
           <span class="week-toggle">▼</span>
         </div>
