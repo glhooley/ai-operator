@@ -1,0 +1,145 @@
+# AI Operator Training Program — Install on Android
+## Step-by-step guide for Windows
+
+---
+
+## What you'll be doing
+Uploading 4 files to GitHub (free), which gives you a public URL.
+Then opening that URL on your Android phone and installing it as an app.
+Total time: ~20 minutes first time.
+
+---
+
+## PART 1 — GitHub Account (skip if you already have one)
+
+1. Go to https://github.com
+2. Click "Sign up" — use any email, pick a username
+3. Verify your email address
+4. You're in
+
+---
+
+## PART 2 — Create a Repository
+
+1. Once logged in, click the "+" icon in the top-right corner
+2. Click "New repository"
+3. Name it exactly:  ai-operator
+4. Make sure "Public" is selected (required for free GitHub Pages)
+5. Check the box: "Add a README file"
+6. Click "Create repository"
+
+---
+
+## PART 3 — Upload Your Files
+
+You need to upload these 4 files from the ZIP you downloaded:
+  - index.html
+  - manifest.json
+  - sw.js
+  - icon-192.png
+  - icon-512.png
+
+Steps:
+1. In your new repository, click "Add file" → "Upload files"
+2. Drag all 5 files into the upload area (or click to browse)
+3. Scroll down, leave the commit message as-is
+4. Click "Commit changes"
+
+---
+
+## PART 4 — Enable GitHub Pages
+
+1. In your repository, click "Settings" (top menu)
+2. In the left sidebar, click "Pages"
+3. Under "Source", click the dropdown that says "None"
+4. Select "main"  (or "master" — whichever appears)
+5. Leave the folder as "/ (root)"
+6. Click "Save"
+
+GitHub will show a message like:
+  "Your site is being published at https://YOUR-USERNAME.github.io/ai-operator/"
+
+Wait about 60 seconds, then visit that URL in your browser to confirm it loads.
+
+Your exact URL will be:
+  https://YOUR-USERNAME.github.io/ai-operator/
+
+(Replace YOUR-USERNAME with your actual GitHub username)
+
+---
+
+## PART 5 — Install on Android Phone
+
+1. Open Chrome on your Android phone
+   (Must be Chrome — Samsung Browser and Firefox won't show the install prompt)
+
+2. Navigate to your GitHub Pages URL:
+   https://YOUR-USERNAME.github.io/ai-operator/
+
+3. Wait for the page to fully load
+
+4. Chrome will show a small banner at the bottom: "Add AI Operator to Home screen"
+   Tap it and tap "Install"
+
+   If the banner doesn't appear automatically:
+   - Tap the 3-dot menu (top right of Chrome)
+   - Look for "Add to Home screen" or "Install app"
+   - Tap it
+
+5. The app icon will appear on your home screen
+6. Tap it — it opens full screen with no browser bar, just like a real app
+
+---
+
+## PART 6 — Offline Mode
+
+Once installed, the app works fully offline.
+Your progress (checkboxes, journal entries) is saved locally on your phone
+in the browser's localStorage — it persists between sessions automatically.
+
+The fonts (Syne, DM Mono, DM Sans) require internet the first time.
+After that first load, everything is cached and works without wifi.
+
+---
+
+## Updating the App
+
+If you ever update the files on GitHub:
+1. Go back to your repository
+2. Click on the file you want to replace
+3. Click the pencil (edit) icon → paste new content → commit
+   OR click "Add file" → "Upload files" and upload the new version
+
+The service worker will detect the change and update automatically
+the next time you open the app with an internet connection.
+
+---
+
+## Troubleshooting
+
+Problem: "Add to Home Screen" option doesn't appear
+Fix: Make sure you're using Chrome (not Samsung Browser). The URL must
+     be HTTPS (GitHub Pages always uses HTTPS, so this should be fine).
+     Try visiting the URL, leaving, then coming back.
+
+Problem: App shows blank screen after install
+Fix: Open Chrome, navigate to the URL directly, wait for it to load fully,
+     then try the home screen icon again.
+
+Problem: GitHub Pages URL returns 404
+Fix: Wait 2-3 minutes after enabling Pages — it takes time to deploy.
+     Double-check that your file is named exactly "index.html" (lowercase).
+
+Problem: Progress doesn't save between sessions
+Fix: Make sure Chrome has storage permission for the site.
+     Go to Chrome Settings → Site Settings → your GitHub Pages URL → Storage → Allow.
+
+---
+
+## Your app URL (fill this in once deployed)
+
+https://_________________________.github.io/ai-operator/
+
+---
+
+Built with Claude · AI Operator Training Program v2.0

@@ -1,0 +1,2014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="AI Operator">
+<meta name="theme-color" content="#0a0a0f">
+<meta name="description" content="Gavin's phase-gated AI business training program">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>AI Operator Training Program — Gavin</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #18181f;
+    --surface3: #1e1e28;
+    --border: #252530;
+    --border2: #2e2e3c;
+    --accent: #e8ff47;
+    --accent2: #ff6b35;
+    --accent3: #47c4ff;
+    --accent4: #b47fff;
+    --text: #e8e8f0;
+    --text-dim: #7a7a90;
+    --text-dimmer: #3a3a50;
+    --phase1: #47c4ff;
+    --phase2: #e8ff47;
+    --phase3: #ff6b35;
+    --phase4: #b47fff;
+    --success: #4ade80;
+    --radius: 10px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.5;
+  }
+
+  /* ─── STICKY PROGRESS BAR ─── */
+  #sticky-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--surface2);
+    z-index: 500;
+  }
+  #sticky-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent3), var(--accent), var(--accent2));
+    width: 0%;
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  }
+  #sticky-badge {
+    position: fixed;
+    top: 10px; right: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 100px;
+    padding: 4px 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    z-index: 500;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  #sticky-badge.show { opacity: 1; transform: translateY(0); }
+
+  /* ─── NAV ─── */
+  nav {
+    position: sticky;
+    top: 3px;
+    z-index: 400;
+    background: rgba(10,10,15,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+
+  .nav-item {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    padding: 14px 16px;
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+    text-decoration: none;
+    display: block;
+  }
+  .nav-item:hover { color: var(--text); }
+  .nav-item.p1:hover, .nav-item.p1.active { color: var(--phase1); border-color: var(--phase1); }
+  .nav-item.p2:hover, .nav-item.p2.active { color: var(--phase2); border-color: var(--phase2); }
+  .nav-item.p3:hover, .nav-item.p3.active { color: var(--phase3); border-color: var(--phase3); }
+  .nav-item.p4:hover, .nav-item.p4.active { color: var(--phase4); border-color: var(--phase4); }
+  .nav-item.tools:hover, .nav-item.tools.active { color: var(--accent); border-color: var(--accent); }
+
+  /* ─── LAYOUT ─── */
+  .container { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+
+  /* ─── HEADER ─── */
+  header { padding: 56px 0 44px; border-bottom: 1px solid var(--border); margin-bottom: 52px; }
+
+  .header-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .header-eyebrow::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(38px, 6vw, 68px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+    margin-bottom: 20px;
+  }
+  h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .header-desc {
+    font-size: 15px;
+    color: var(--text-dim);
+    max-width: 520px;
+    margin-bottom: 32px;
+    line-height: 1.7;
+  }
+
+  .header-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .stat {
+    background: var(--surface);
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .stat-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  /* ─── PROGRESS PANEL ─── */
+  .progress-panel {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 52px;
+  }
+  .progress-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 14px;
+  }
+  .progress-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .progress-stats {
+    display: flex;
+    gap: 20px;
+    align-items: baseline;
+  }
+  .progress-pct {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .progress-tasks {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+  .track {
+    height: 5px;
+    background: var(--surface2);
+    border-radius: 100px;
+    overflow: hidden;
+    margin-bottom: 18px;
+  }
+  .fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent3), var(--accent), var(--accent2));
+    border-radius: 100px;
+    transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+    width: 0%;
+  }
+  .phase-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .phase-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    padding: 5px 12px;
+    border-radius: 100px;
+    border: 1px solid var(--border2);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.18s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .phase-pill:hover { color: var(--text); border-color: var(--text-dimmer); }
+  .phase-pill.p1 { border-color: var(--phase1); color: var(--phase1); }
+  .phase-pill.p2 { border-color: var(--phase2); color: var(--phase2); }
+  .phase-pill.p3 { border-color: var(--phase3); color: var(--phase3); }
+  .phase-pill.p4 { border-color: var(--phase4); color: var(--phase4); }
+  .pill-pct {
+    opacity: 0.7;
+    font-size: 9px;
+  }
+
+  .reset-btn {
+    margin-left: auto;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--text-dimmer);
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .reset-btn:hover { color: var(--accent2); border-color: var(--accent2); }
+
+  /* ─── SECTION LABEL ─── */
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* ─── RULES ─── */
+  .rules-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 52px;
+  }
+  @media (max-width: 600px) { .rules-grid { grid-template-columns: 1fr; } }
+
+  .rule-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    display: flex;
+    gap: 16px;
+    transition: border-color 0.2s;
+  }
+  .rule-card:hover { border-color: var(--border2); }
+  .rule-n {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--text-dimmer);
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .rule-body {}
+  .rule-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 5px;
+    color: var(--text);
+  }
+  .rule-desc { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+
+  /* ─── PHASE ─── */
+  .phase { margin-bottom: 68px; scroll-margin-top: 80px; }
+
+  .phase-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    margin-bottom: 24px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .phase-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    padding: 5px 12px;
+    border-radius: 4px;
+    border: 1px solid;
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+  .phase-1 .phase-badge { color: var(--phase1); border-color: var(--phase1); background: rgba(71,196,255,0.05); }
+  .phase-2 .phase-badge { color: var(--phase2); border-color: var(--phase2); background: rgba(232,255,71,0.05); }
+  .phase-3 .phase-badge { color: var(--phase3); border-color: var(--phase3); background: rgba(255,107,53,0.05); }
+  .phase-4 .phase-badge { color: var(--phase4); border-color: var(--phase4); background: rgba(180,127,255,0.05); }
+
+  .phase-title-block { flex: 1; }
+  .phase-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 5px;
+  }
+  .phase-sub { font-size: 13px; color: var(--text-dim); margin-bottom: 12px; }
+  .phase-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 3px;
+    background: var(--surface2);
+    color: var(--text-dimmer);
+    border: 1px solid var(--border);
+  }
+  .phase-progress-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    text-align: right;
+    white-space: nowrap;
+    margin-top: 8px;
+    flex-shrink: 0;
+  }
+
+  /* ─── GATE ─── */
+  .gate {
+    border-radius: 0 var(--radius) var(--radius) 0;
+    border-left: 3px solid;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: var(--surface2);
+  }
+  .phase-1 .gate { border-color: var(--phase1); }
+  .phase-2 .gate { border-color: var(--phase2); }
+  .phase-3 .gate { border-color: var(--phase3); }
+  .phase-4 .gate { border-color: var(--phase4); }
+
+  .gate-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .gate-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 5px;
+  }
+  .gate-title { font-size: 13.5px; color: var(--text); line-height: 1.6; }
+
+  /* ─── WEEKS ─── */
+  .weeks-grid { display: grid; gap: 10px; }
+
+  .week {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color 0.18s;
+  }
+  .week:hover { border-color: var(--border2); }
+  .week.complete { border-color: rgba(74,222,128,0.3); }
+  .week.complete .week-header { background: rgba(74,222,128,0.03); }
+
+  .week-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 15px 18px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .week-header:hover { background: var(--surface2); }
+
+  .week-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--text-dimmer);
+    flex-shrink: 0;
+    width: 56px;
+  }
+  .week-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text);
+    flex: 1;
+  }
+  .week-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dimmer);
+    flex-shrink: 0;
+  }
+  .week-count.done-all { color: var(--success); }
+  .week-hours {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dimmer);
+    flex-shrink: 0;
+  }
+  .week-complete-badge {
+    font-size: 13px;
+    flex-shrink: 0;
+    display: none;
+  }
+  .week.complete .week-complete-badge { display: block; }
+  .week-toggle {
+    color: var(--text-dimmer);
+    flex-shrink: 0;
+    transition: transform 0.2s;
+    font-size: 10px;
+  }
+  .week.open .week-toggle { transform: rotate(180deg); }
+
+  .week-body {
+    display: none;
+    padding: 0 18px 18px;
+    border-top: 1px solid var(--border);
+  }
+  .week.open .week-body { display: block; }
+
+  .week-note {
+    background: var(--surface2);
+    border-left: 2px solid var(--accent3);
+    border-radius: 0 6px 6px 0;
+    padding: 11px 14px;
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    margin: 14px 0;
+  }
+  .week-note strong { color: var(--accent3); font-weight: 500; }
+
+  .week-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 4px;
+  }
+  @media (max-width: 580px) { .week-cols { grid-template-columns: 1fr; } }
+
+  .col-header {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-dimmer);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .task-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+
+  .task-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.55;
+    cursor: pointer;
+    padding: 2px 0;
+    border-radius: 4px;
+    transition: color 0.15s;
+  }
+  .task-item:hover { color: var(--text); }
+
+  .task-item input[type="checkbox"] {
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border: 1px solid var(--border2);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.15s;
+    background: transparent;
+  }
+  .task-item input[type="checkbox"]:hover { border-color: var(--text-dim); }
+  .task-item input[type="checkbox"]:checked {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .task-item input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: -1px; left: 1px;
+    font-size: 11px;
+    color: #000;
+    font-weight: 700;
+  }
+  .task-item.done span { color: var(--text-dimmer); text-decoration: line-through; }
+
+  .deliverable {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 7px;
+    padding: 12px 14px;
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.5;
+    grid-column: 1 / -1;
+  }
+  .deliverable-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .deliverable strong {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    display: block;
+    margin-bottom: 3px;
+  }
+  .deliverable span { color: var(--text); }
+
+  /* ─── STUCK PROTOCOL ─── */
+  .stuck-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 20px 24px;
+    margin-bottom: 52px;
+  }
+  .stuck-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 14px;
+    color: var(--accent2);
+  }
+  .stuck-steps { display: flex; flex-direction: column; gap: 10px; }
+  .stuck-step {
+    display: flex;
+    gap: 14px;
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+  .stuck-step-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--accent2);
+    flex-shrink: 0;
+    margin-top: 2px;
+    width: 18px;
+  }
+
+  /* ─── PLAYBOOK ─── */
+  .playbook {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 52px;
+  }
+  .playbook-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .playbook-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 12px;
+  }
+  .pc {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px;
+  }
+  .pc-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+  .pc-value { font-size: 13px; color: var(--text-dim); line-height: 1.65; }
+  .pc-value strong { color: var(--accent); font-weight: 500; }
+
+  /* ─── OBJECTIONS ─── */
+  .objection {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-bottom: 8px;
+  }
+  .objection-q {
+    font-size: 13px;
+    color: var(--text);
+    font-style: italic;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .objection-a {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+  .objection-a strong { color: var(--accent); font-weight: 500; }
+
+  /* ─── TOOLS ─── */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+    margin-bottom: 52px;
+  }
+  .tool-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    text-decoration: none;
+    transition: border-color 0.18s, background 0.18s;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .tool-card:hover { border-color: var(--border2); background: var(--surface2); }
+  .tool-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .tool-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text);
+  }
+  .tool-cost {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--success);
+    background: rgba(74,222,128,0.08);
+    border: 1px solid rgba(74,222,128,0.2);
+    border-radius: 100px;
+    padding: 2px 8px;
+    white-space: nowrap;
+  }
+  .tool-cat {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dimmer);
+  }
+  .tool-desc { font-size: 12px; color: var(--text-dim); line-height: 1.55; }
+  .tool-learn {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--accent3);
+    margin-top: 4px;
+  }
+
+  /* ─── JOURNAL ─── */
+  .journal-area {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 52px;
+  }
+  .journal-entries { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; min-height: 60px; }
+  .journal-entry {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 14px 16px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .journal-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dimmer);
+    flex-shrink: 0;
+    width: 80px;
+    margin-top: 2px;
+  }
+  .journal-text { font-size: 13px; color: var(--text-dim); line-height: 1.6; flex: 1; }
+  .journal-del {
+    background: none;
+    border: none;
+    color: var(--text-dimmer);
+    cursor: pointer;
+    font-size: 14px;
+    flex-shrink: 0;
+    transition: color 0.15s;
+    padding: 0 2px;
+  }
+  .journal-del:hover { color: var(--accent2); }
+  .journal-input-row { display: flex; gap: 8px; }
+  .journal-input {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 7px;
+    padding: 11px 14px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.18s;
+    resize: none;
+  }
+  .journal-input:focus { border-color: var(--accent); }
+  .journal-input::placeholder { color: var(--text-dimmer); }
+  .journal-add {
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 7px;
+    padding: 11px 18px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: background 0.15s;
+    flex-shrink: 0;
+  }
+  .journal-add:hover { background: #f5ff6a; }
+  .journal-empty {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dimmer);
+    text-align: center;
+    padding: 20px 0;
+  }
+
+  /* ─── REVENUE ─── */
+  .rev-row {
+    display: grid;
+    grid-template-columns: 90px 1fr 90px;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .rev-row:last-of-type { border-bottom: none; }
+  .rev-mo { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-dim); }
+  .rev-track { height: 5px; background: var(--surface2); border-radius: 100px; overflow: hidden; }
+  .rev-bar { height: 100%; border-radius: 100px; transition: width 1s cubic-bezier(0.4,0,0.2,1); }
+  .rev-amt { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 15px; text-align: right; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 36px 0 52px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-txt { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-dimmer); letter-spacing: 0.1em; }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .phase, .playbook, .tools-grid, .stuck-box { animation: fadeUp 0.4s ease both; }
+
+  .animate-bar { transition: width 1.2s cubic-bezier(0.4,0,0.2,1) !important; }
+</style>
+</head>
+<body>
+
+<!-- STICKY BAR -->
+<div id="sticky-bar"><div id="sticky-fill"></div></div>
+<div id="sticky-badge">0%</div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-item" href="#overview">Overview</a>
+  <a class="nav-item p1" href="#phase1">Phase 1</a>
+  <a class="nav-item p2" href="#phase2">Phase 2</a>
+  <a class="nav-item p3" href="#phase3">Phase 3</a>
+  <a class="nav-item p4" href="#phase4">Phase 4</a>
+  <a class="nav-item tools" href="#tools">Tools</a>
+  <a class="nav-item" href="#playbook">Playbook</a>
+  <a class="nav-item" href="#journal">Journal</a>
+</nav>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header id="overview">
+    <div class="header-eyebrow">gavin's operating manual — v2.0</div>
+    <h1>AI Operator<br><em>Training Program</em></h1>
+    <p class="header-desc">Phase-gated. Every milestone is a real deliverable that exists in the world. You don't advance until the gate is cleared — no exceptions.</p>
+    <div class="header-stats">
+      <div class="stat"><span class="stat-label">Weekly Time</span><span class="stat-value">5–7 hrs</span></div>
+      <div class="stat"><span class="stat-label">Duration</span><span class="stat-value">~18 mo</span></div>
+      <div class="stat"><span class="stat-label">Mo 18 Target</span><span class="stat-value">$15–25K</span></div>
+      <div class="stat"><span class="stat-label">Vertical #1</span><span class="stat-value">HVAC/Plmb</span></div>
+      <div class="stat"><span class="stat-label">Vertical #2</span><span class="stat-value">Auto Repair</span></div>
+      <div class="stat"><span class="stat-label">End State</span><span class="stat-value">Integrator</span></div>
+    </div>
+  </header>
+
+  <!-- PROGRESS -->
+  <div class="progress-panel">
+    <div class="progress-top">
+      <span class="progress-label">Overall Progress</span>
+      <div class="progress-stats">
+        <span class="progress-tasks" id="taskCount">0 / 0 tasks</span>
+        <span class="progress-pct" id="pctDisplay">0%</span>
+      </div>
+    </div>
+    <div class="track"><div class="fill" id="progressFill"></div></div>
+    <div class="phase-pills">
+      <a class="phase-pill p1" href="#phase1">Phase 1 <span class="pill-pct" id="p1pct"></span></a>
+      <a class="phase-pill p2" href="#phase2">Phase 2 <span class="pill-pct" id="p2pct"></span></a>
+      <a class="phase-pill p3" href="#phase3">Phase 3 <span class="pill-pct" id="p3pct"></span></a>
+      <a class="phase-pill p4" href="#phase4">Phase 4 <span class="pill-pct" id="p4pct"></span></a>
+      <button class="reset-btn" onclick="resetProgress()">↺ Reset</button>
+    </div>
+  </div>
+
+  <!-- RULES -->
+  <div class="section-label">Operating Rules</div>
+  <div class="rules-grid" style="margin-bottom:52px;">
+    <div class="rule-card">
+      <div class="rule-n">01</div>
+      <div class="rule-body">
+        <div class="rule-title">Every hour produces something real</div>
+        <div class="rule-desc">No passive learning. Reading counts only if it feeds a decision or artifact you make that same session. Watch tutorials only while building the thing the tutorial teaches.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-n">02</div>
+      <div class="rule-body">
+        <div class="rule-title">Gate yourself hard</div>
+        <div class="rule-desc">Each phase gate deliverable must exist in the physical world — live automation, signed client, real payment — before the next phase starts. No exceptions, no partial credit.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-n">03</div>
+      <div class="rule-body">
+        <div class="rule-title">Sell before you build</div>
+        <div class="rule-desc">Never build a system for a client who hasn't agreed to pay. Your first prospect conversation happens in Week 3 — before your stack is finished. Close first, build second.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-n">04</div>
+      <div class="rule-body">
+        <div class="rule-title">One vertical first</div>
+        <div class="rule-desc">HVAC and plumbing only until you have 3 paying clients. Depth in one vertical beats shallow presence in five. Auto repair enters at Phase 3 and not before.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-n">05</div>
+      <div class="rule-body">
+        <div class="rule-title">Block the hours before the week starts</div>
+        <div class="rule-desc">Schedule your 5–7 hours Sunday night. Treat them like a Parsons meeting. Miss two consecutive weeks → write a post-mortem on why before continuing. No journaling = no advancing.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-n">06</div>
+      <div class="rule-body">
+        <div class="rule-title">Document everything that breaks</div>
+        <div class="rule-desc">Every bug, every client objection, every failed outreach message is content. Log it in the Journal below. These become your playbook, your pitch armor, and your case study material.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHEN STUCK -->
+  <div class="section-label">When You Get Stuck</div>
+  <div class="stuck-box">
+    <div class="stuck-title">⚡ The Unstick Protocol</div>
+    <div class="stuck-steps">
+      <div class="stuck-step"><span class="stuck-step-num">01</span><span>Name the exact blocker in one sentence. Vague stuck ("I don't know what to do") is a different problem than specific stuck ("my Make scenario fails when the form field is empty"). Write it down.</span></div>
+      <div class="stuck-step"><span class="stuck-step-num">02</span><span>Technical issue: search the Make.com community forum first (5 min), then Claude (10 min), then the specific tool docs. If not resolved in 25 min total, post in the Make community with a screenshot of your scenario.</span></div>
+      <div class="stuck-step"><span class="stuck-step-num">03</span><span>Sales stuck (no responses, no interest): go back to conversation notes. What exact words did owners use about their problem? Rewrite your outreach using their language, not yours.</span></div>
+      <div class="stuck-step"><span class="stuck-step-num">04</span><span>Motivation stuck: re-read Rule 01. Open the Journal. Write one sentence about why you started this. Then do the smallest next action on the task list — not the whole week, just the next checkbox.</span></div>
+      <div class="stuck-step"><span class="stuck-step-num">05</span><span>If a phase gate feels unreachable after 3 extra weeks: reduce scope. A smaller gate you pass is infinitely better than a perfect gate you never reach. Document the gap and advance.</span></div>
+    </div>
+  </div>
+
+  <!-- ════════ PHASE 1 ════════ -->
+  <div class="phase phase-1" id="phase1">
+    <div class="phase-header">
+      <div class="phase-badge">PHASE 1</div>
+      <div class="phase-title-block">
+        <div class="phase-title">Foundation & Vertical Decision</div>
+        <div class="phase-sub">Weeks 1–6 · ~36 hours · No revenue yet · HVAC/Plumbing focus</div>
+        <div class="phase-tags">
+          <span class="tag">Technical Setup</span>
+          <span class="tag">Vertical Research</span>
+          <span class="tag">Demo Build</span>
+          <span class="tag">First Outreach</span>
+          <span class="tag">Pricing Design</span>
+        </div>
+      </div>
+      <div class="phase-progress-text" id="p1progress">0 / 0</div>
+    </div>
+
+    <div class="gate">
+      <div class="gate-icon">🔒</div>
+      <div>
+        <div class="gate-label">Phase Gate — Clear Both Before Advancing</div>
+        <div class="gate-title">① A live, working demo automation for a fictional HVAC company: intake form → Claude urgency triage → Twilio SMS → Airtable log. ② You have had at least one real conversation with an HVAC or plumbing business owner about their missed-call problem — logged in the Journal.</div>
+      </div>
+    </div>
+
+    <div class="weeks-grid" data-phase="1">
+
+      <div class="week">
+        <div class="week-header" onclick="toggleWeek(this)">
+          <span class="week-num">WK 01</span>
+          <span class="week-title">Environment Setup + Vertical Lock</span>
+          <span class="week-complete-badge">✅</span>
+          <span class="week-count" id="wc-0">0/7</span>
+          <span class="week-hours">5–6 hrs</span>
+          <span class="week-toggle">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="week-note"><strong>Goal:</strong> Accounts live, vertical committed, first prospect list exists. No building yet — this week is environment and decision.</div>
+          <div class="week-cols">
+            <div>
+              <div class="col-header">Setup</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Create Make.com free account. Complete all 3 quickstart scenarios end-to-end (2 hrs)</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Create Airtable free account. Build a "Client Jobs" base: Name, Phone, Address, Service Type, Urgency, Status, Date fields</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Create Twilio trial account. Send yourself a test SMS from the console (no code needed yet)</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Read Avoca AI's homepage + 2 case studies. Note verbatim pain points they name</span></li>
+              </ul>
+            </div>
+            <div>
+              <div class="col-header">Decide & Research</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Write 1 paragraph: "Why HVAC/plumbing and not auto repair." Save it somewhere permanent. This is your north star when doubt hits</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>List 10 HVAC or plumbing businesses within 30 miles using Google Maps. Find owner names via Google Business Profile or LinkedIn</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Flag any warm contacts — friend, neighbor, referral network, local Facebook group. These are Week 3 targets</span></li>
+              </ul>
+            </div>
+            <div class="deliverable" style="grid-column:1/-1">
+              <span class="deliverable-icon">📦</span>
+              <div><strong>Week 1 Deliverable</strong><span>All 3 accounts active and tested. 10-prospect list built with owner names. Vertical commitment written.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week">
+        <div class="week-header" onclick="toggleWeek(this)">
+          <span class="week-num">WK 02</span>
+          <span class="week-title">Build Your First Automation (Intake Flow)</span>
+          <span class="week-complete-badge">✅</span>
+          <span class="week-count" id="wc-1">0/7</span>
+          <span class="week-hours">6–7 hrs</span>
+          <span class="week-toggle">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="week-note"><strong>Goal:</strong> A real, working Make.com scenario that captures a service request, runs it through Claude, and logs it. Ugly is fine. <em>Working is required.</em></div>
+          <div class="week-cols">
+            <div>
+              <div class="col-header">Build</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Build Make scenario: Tally (free) form submission → new Airtable record created (1.5 hrs)</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Add Twilio SMS step: when record created, send SMS to your number: "New job: [Name] — [Service Type] — [Address]"</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Add Claude API module: classify urgency from the free-text description field → "Emergency / Routine / Quote Request" → write to Airtable Status field</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Test end-to-end 5 times with varied inputs. Fix every failure before moving on</span></li>
+              </ul>
+            </div>
+            <div>
+              <div class="col-header">Learn</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Read Anthropic's Messages API quickstart. Understand: system prompt, user message, max_tokens, temperature. Don't memorize — just understand the shape</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Watch Make.com "HTTP Module" tutorial (official docs). This is how you'll call any API including Claude</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Document every step you built in a Google Doc — this becomes your delivery template for client #1</span></li>
+              </ul>
+            </div>
+            <div class="deliverable" style="grid-column:1/-1">
+              <span class="deliverable-icon">📦</span>
+              <div><strong>Week 2 Deliverable</strong><span>Working intake flow: Form → Claude urgency triage → Airtable record → SMS alert to owner's phone.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week">
+        <div class="week-header" onclick="toggleWeek(this)">
+          <span class="week-num">WK 03</span>
+          <span class="week-title">Follow-Up Sequence + First Real Conversation</span>
+          <span class="week-complete-badge">✅</span>
+          <span class="week-count" id="wc-2">0/7</span>
+          <span class="week-hours">6–7 hrs</span>
+          <span class="week-toggle">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="week-note"><strong>Goal:</strong> Add post-job follow-up. Make your first real prospect conversation this week — before the demo is perfect. The conversation informs the demo, not the other way around.</div>
+          <div class="week-cols">
+            <div>
+              <div class="col-header">Build</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Build 3-step SMS follow-up in Make using delay/scheduler modules: Day 0 ("Thanks for calling [Business]!"), Day 1 ("How did your service go? Any issues?"), Day 3 (Google review request with direct link)</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Personalize messages using Airtable data: customer first name, service type pulled into the SMS text</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Test all 3 delays fire correctly. Set delays to 1 minute for testing, then restore to actual values</span></li>
+              </ul>
+            </div>
+            <div>
+              <div class="col-header">Sell & Research</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Contact one warm prospect from your Week 1 list. Script: "Hey [Name], quick question — when your guys are on a job, do calls ever go unanswered?" (Text or call, not email)</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Write down every word they say about the problem verbatim. These quotes become your pitch copy</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Sketch your service package on paper: what's included, what's not, rough price range. Commit nothing — just think it through</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Log this conversation in the Journal below with date, name, and 3 key things they said</span></li>
+              </ul>
+            </div>
+            <div class="deliverable" style="grid-column:1/-1">
+              <span class="deliverable-icon">📦</span>
+              <div><strong>Week 3 Deliverable</strong><span>Working follow-up sequence. Notes from one real prospect conversation logged in Journal.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week">
+        <div class="week-header" onclick="toggleWeek(this)">
+          <span class="week-num">WK 04</span>
+          <span class="week-title">Demo Build "Buster's H&A" + Lock Pricing</span>
+          <span class="week-complete-badge">✅</span>
+          <span class="week-count" id="wc-3">0/6</span>
+          <span class="week-hours">6–7 hrs</span>
+          <span class="week-toggle">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="week-note"><strong>Goal:</strong> Create a named demo environment you can show prospects. Price locked by end of week — not a range, an actual number.</div>
+          <div class="week-cols">
+            <div>
+              <div class="col-header">Build Demo</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Clone your automation under fictional brand "Buster's Heating & Air" — real Twilio number, real Airtable base, real branded SMS messages</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Record a 3-minute Loom walkthrough showing a job coming in, Claude triaging it, SMS firing, then follow-ups. Practice until one clean take. No "um"s over 3.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Build a simple demo page on Carrd (free): what the system does, the Loom embed, a "Book a call" link (Calendly free tier)</span></li>
+              </ul>
+            </div>
+            <div>
+              <div class="col-header">Package & Price</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Lock Tier 1: $750 setup fee + $650/mo retainer. Write the exact included scope: intake triage, 3-step SMS follow-up, Google review request, Airtable job log, monthly 15-min check-in call</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Write your one-line pitch using their words from Week 3: "[their pain] — I built a system that fixes that automatically for HVAC shops."</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Create a 1-page Google Doc proposal template: problem, solution, what's included, price, how it works, next step</span></li>
+              </ul>
+            </div>
+            <div class="deliverable" style="grid-column:1/-1">
+              <span class="deliverable-icon">📦</span>
+              <div><strong>Week 4 Deliverable</strong><span>Buster's demo live. Loom recorded. Pricing locked at $750 setup + $650/mo. 1-page proposal template ready.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week">
+        <div class="week-header" onclick="toggleWeek(this)">
+          <span class="week-num">WK 05</span>
+          <span class="week-title">Outreach Blitz — 5 Real Conversations</span>
+          <span class="week-complete-badge">✅</span>
+          <span class="week-count" id="wc-4">0/6</span>
+          <span class="week-hours">5–6 hrs</span>
+          <span class="week-toggle">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="week-note"><strong>Goal:</strong> 5 real owner conversations this week. Show the Loom to anyone who shows any interest. Zero pitch pressure — pure discovery and proof of life.</div>
+          <div class="week-cols">
+            <div>
+              <div class="col-header">Outreach</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Send 10 personalized messages to HVAC/plumbing owners in Utah. Script: "Hey [Name], I help HVAC shops catch the calls they miss when techs are on jobs. Built a system that does it automatically — mind if I send you a 3-min demo video?" Keep it short.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>For any "sure" or "what is it" response: reply with Loom link within 1 hour. Attach the demo page URL.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Complete 5 real conversations (phone, video, or in person). Log every one in Airtable or a note: name, channel, what they said</span></li>
+              </ul>
+            </div>
+            <div>
+              <div class="col-header">Learn & Iterate</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>After conversations 3 and 5: rewrite your outreach script based on patterns. What question got the most engagement? Use it.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Note every objection you hear. Log it in the Objections section (in your proposal doc) with your answer attempt</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Log all 5 conversation summaries in Journal below</span></li>
+              </ul>
+            </div>
+            <div class="deliverable" style="grid-column:1/-1">
+              <span class="deliverable-icon">📦</span>
+              <div><strong>Week 5 Deliverable</strong><span>5 conversations logged. At least 1 "show me more" response. Updated outreach script.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week">
+        <div class="week-header" onclick="toggleWeek(this)">
+          <span class="week-num">WK 06</span>
+          <span class="week-title">Close Attempt + Phase Gate Review</span>
+          <span class="week-complete-badge">✅</span>
+          <span class="week-count" id="wc-5">0/6</span>
+          <span class="week-hours">5–6 hrs</span>
+          <span class="week-toggle">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="week-note"><strong>Goal:</strong> Push any warm prospects toward a decision. Run an honest Phase 1 retrospective. Gate check — you don't advance until both gate conditions are real.</div>
+          <div class="week-cols">
+            <div>
+              <div class="col-header">Close</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Follow up every "interested" prospect with a pilot offer: "I'll set it up free for 2 weeks. If you don't see results, you owe me nothing — and I just ask for honest feedback and permission to use the numbers in a case study."</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>If no takers yet: expand to 10 more prospects. Not a failure — pipeline is a numbers game at this stage</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>If someone says yes to pilot: deploy immediately and skip to Phase 2 gate. You've earned it.</span></li>
+              </ul>
+            </div>
+            <div>
+              <div class="col-header">Retrospective</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Write Phase 1 review in Journal: What did you build? What worked in outreach? What flopped? What would you do differently in Week 1–6?</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Gate check — be honest: Is the demo live and working? Did a real owner conversation happen and get logged? Both yes → Phase 2. One or both no → name the specific gap and fix it this week before advancing.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Celebrate what you actually built. A working AI automation and a real outreach campaign in 6 weeks at 5 hrs/week is real. Acknowledge it before moving.</span></li>
+              </ul>
+            </div>
+            <div class="deliverable" style="grid-column:1/-1">
+              <span class="deliverable-icon">🔓</span>
+              <div><strong>Phase 1 Gate</strong><span>Demo live + real owner conversation → Phase 2 unlocked. Written retro logged in Journal.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════ PHASE 2 ════════ -->
+  <div class="phase phase-2" id="phase2">
+    <div class="phase-header">
+      <div class="phase-badge">PHASE 2</div>
+      <div class="phase-title-block">
+        <div class="phase-title">First Paying Client</div>
+        <div class="phase-sub">Weeks 7–12 · ~36 hours · Target: $650–800 MRR · 1 paying client</div>
+        <div class="phase-tags">
+          <span class="tag">Sales Close</span>
+          <span class="tag">Live Deployment</span>
+          <span class="tag">Client Onboarding</span>
+          <span class="tag">Results Tracking</span>
+          <span class="tag">Case Study</span>
+        </div>
+      </div>
+      <div class="phase-progress-text" id="p2progress">0 / 0</div>
+    </div>
+
+    <div class="gate">
+      <div class="gate-icon">🔒</div>
+      <div>
+        <div class="gate-label">Phase Gate — All 3 Required</div>
+        <div class="gate-title">① One paying client with system live in their business. ② At least one month's retainer received via Stripe. ③ 3 specific documented results (calls captured, bookings made, or reviews generated) in a draft case study.</div>
+      </div>
+    </div>
+
+    <div class="weeks-grid" data-phase="2">
+
+      <div class="week">
+        <div class="week-header" onclick="toggleWeek(this)">
+          <span class="week-num">WK 07–08</span>
+          <span class="week-title">Close & Deploy First Client</span>
+          <span class="week-complete-badge">✅</span>
+          <span class="week-count" id="wc-6">0/8</span>
+          <span class="week-hours">12 hrs</span>
+          <span class="week-toggle">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="week-cols">
+            <div>
+              <div class="col-header">Close</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Send proposal PDF to warmest prospect. Follow up by phone within 24 hours — not email</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Handle objections. See Objection Guide in Playbook section below. Prepare your 4 answers before the call.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Create Stripe account. Use a payment link for the $750 setup fee — send it the moment they say yes, before any building starts</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Get a signed 1-page service agreement (Google Doc). Define: scope, monthly price, what's not included, 30-day cancellation terms</span></li>
+              </ul>
+            </div>
+            <div>
+              <div class="col-header">Deploy</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Clone Buster's demo. Rebrand all messages, Airtable base, and SMS sender name to client's business</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Connect their phone number (call forwarding to your Twilio number, or buy them a new local number)</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Connect their Google Business Profile link into the review request SMS</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Run a live end-to-end test with the owner watching. Fix anything that fails before leaving.</span></li>
+              </ul>
+            </div>
+            <div class="deliverable" style="grid-column:1/-1">
+              <span class="deliverable-icon">📦</span>
+              <div><strong>Wks 7–8 Deliverable</strong><span>System live in client's business. Setup fee paid. Service agreement signed.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week">
+        <div class="week-header" onclick="toggleWeek(this)">
+          <span class="week-num">WK 09–10</span>
+          <span class="week-title">Monitor, Fix, and Track Results</span>
+          <span class="week-complete-badge">✅</span>
+          <span class="week-count" id="wc-7">0/6</span>
+          <span class="week-hours">10 hrs</span>
+          <span class="week-toggle">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="week-cols">
+            <div>
+              <div class="col-header">Monitor</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Check Make.com scenario run history every 2 days. Fix every error same day it appears</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Add error-handling to every Make module: filter for empty required fields, retry on Twilio failure, send yourself an alert on scenario error</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Weekly 15-min check-in call with client. Questions: "What's working? Anything confusing customers? Any jobs you think we might have missed?"</span></li>
+              </ul>
+            </div>
+            <div>
+              <div class="col-header">Document</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Track weekly: calls/forms captured, follow-up SMS delivery rate, reviews generated, client-reported new bookings attributed to follow-up</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Start the case study doc. Even rough bullet points: before numbers (if client knows them), after numbers as they come in</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Write your deployment checklist: every step to set up a client from signed contract to live system. This is your production SOP.</span></li>
+              </ul>
+            </div>
+            <div class="deliverable" style="grid-column:1/-1">
+              <span class="deliverable-icon">📦</span>
+              <div><strong>Wks 9–10 Deliverable</strong><span>2 weeks of live data tracked. Error handling added. Draft case study started. Deployment SOP written.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week">
+        <div class="week-header" onclick="toggleWeek(this)">
+          <span class="week-num">WK 11–12</span>
+          <span class="week-title">Case Study + Referral Ask + Gate Check</span>
+          <span class="week-complete-badge">✅</span>
+          <span class="week-count" id="wc-8">0/6</span>
+          <span class="week-hours">10 hrs</span>
+          <span class="week-toggle">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="week-cols">
+            <div>
+              <div class="col-header">Leverage</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Finish the 1-page case study with real numbers. Get explicit written permission to use it (text or email is fine)</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Ask client directly: "Do you know any other HVAC or plumbing owners who deal with the same missed-call problem?" — warm referral ask, low pressure</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Post anonymized results on LinkedIn: "Set up an AI intake system for a Utah HVAC shop. Week 3 results: [real numbers]. Here's what we built." No selling — curiosity does the work</span></li>
+              </ul>
+            </div>
+            <div>
+              <div class="col-header">Pipeline</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Continue outreach for clients 2 and 3 — now leading with the case study instead of the demo alone</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Gate check: paying client with live system ✓, retainer received ✓, 3 documented results ✓ → Phase 3 unlocked</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Log Phase 2 retro in Journal: what did deployment teach you? What took longer than expected? What's your updated time estimate per client?</span></li>
+              </ul>
+            </div>
+            <div class="deliverable" style="grid-column:1/-1">
+              <span class="deliverable-icon">🔓</span>
+              <div><strong>Phase 2 Gate</strong><span>Paying client + retainer received + case study with 3 real data points → Phase 3 unlocked.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════ PHASE 3 ════════ -->
+  <div class="phase phase-3" id="phase3">
+    <div class="phase-header">
+      <div class="phase-badge">PHASE 3</div>
+      <div class="phase-title-block">
+        <div class="phase-title">Scale to 5 Clients + Auto Repair Entry</div>
+        <div class="phase-sub">Months 3–9 · ~150 hours · Target: $3,500–5,000 MRR</div>
+        <div class="phase-tags">
+          <span class="tag">Productization</span>
+          <span class="tag">Referral Engine</span>
+          <span class="tag">Auto Repair Variant</span>
+          <span class="tag">Delegation Prep</span>
+          <span class="tag">Playbook</span>
+        </div>
+      </div>
+      <div class="phase-progress-text" id="p3progress">0 / 0</div>
+    </div>
+
+    <div class="gate">
+      <div class="gate-icon">🔒</div>
+      <div>
+        <div class="gate-label">Phase Gate — All Required</div>
+        <div class="gate-title">① 5 paying clients across HVAC/plumbing (and optionally auto repair). ② Each new deployment takes under 8 hours from signed contract to live. ③ Monthly revenue $3,500+. ④ A written delivery playbook someone else could follow. ⑤ LinkedIn updated with AI Systems Integrator positioning.</div>
+      </div>
+    </div>
+
+    <div class="weeks-grid" data-phase="3">
+
+      <div class="week">
+        <div class="week-header" onclick="toggleWeek(this)">
+          <span class="week-num">MO 03–05</span>
+          <span class="week-title">Clients 2 & 3 — Productize Deployment</span>
+          <span class="week-complete-badge">✅</span>
+          <span class="week-count" id="wc-9">0/7</span>
+          <span class="week-hours">~36 hrs</span>
+          <span class="week-toggle">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="week-cols">
+            <div>
+              <div class="col-header">Close & Deploy</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Close clients 2 and 3 using Phase 2 case study as lead proof. Price: $800 setup + $750/mo</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Build a client onboarding intake form (Tally) that collects everything before you start: business name, owner phone, primary number to forward, Google Business URL, calendar link if any</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Clone Make template per client. Target: full deployment in under 8 hours from signed contract</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Track actual deployment time per client. Log it. Your goal is under 8 hrs by client 3.</span></li>
+              </ul>
+            </div>
+            <div>
+              <div class="col-header">Systematize</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Build a master client dashboard in Airtable: all clients, their live system status, last check-in date, monthly MRR, renewal date</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Set up automated monthly performance summary email to each client (Make scenario pulls their Airtable data and sends it via email)</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Offer existing client a $150 credit for any referral that signs — formalize the referral program</span></li>
+              </ul>
+            </div>
+            <div class="deliverable" style="grid-column:1/-1">
+              <span class="deliverable-icon">📦</span>
+              <div><strong>Mo 3–5 Deliverable</strong><span>3 clients live. Deployment template cloneable under 8 hrs. Client dashboard built. Referral program active.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week">
+        <div class="week-header" onclick="toggleWeek(this)">
+          <span class="week-num">MO 06–08</span>
+          <span class="week-title">Clients 4 & 5 + Auto Repair Variant</span>
+          <span class="week-complete-badge">✅</span>
+          <span class="week-count" id="wc-10">0/7</span>
+          <span class="week-hours">~60 hrs</span>
+          <span class="week-toggle">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="week-cols">
+            <div>
+              <div class="col-header">HVAC Scale</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Close clients 4 and 5. Raise price to $900 setup + $850/mo — you've earned the confidence. Case study portfolio justifies it.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Total HVAC/plumbing MRR should reach $3,250–$3,750 across all 5 clients by end of this block</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Referral ask at each monthly check-in call. This is now a standing agenda item, not an afterthought</span></li>
+              </ul>
+            </div>
+            <div>
+              <div class="col-header">Auto Repair Entry</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Adapt your intake/follow-up template for auto repair: add vehicle fields (year/make/model), change service type options, update SMS language to shop context</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Add a 60/90-day maintenance reminder sequence: "Your [vehicle] is due for an oil change based on your last visit — want to book?" pulled from Airtable</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Run same outreach pattern targeting 2–6 bay independent shops in your area. Use your HVAC case study — the problem (missed calls, no follow-up) is identical</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Deploy one auto repair client on a pilot basis to validate the variant before building a full pipeline</span></li>
+              </ul>
+            </div>
+            <div class="deliverable" style="grid-column:1/-1">
+              <span class="deliverable-icon">📦</span>
+              <div><strong>Mo 6–8 Deliverable</strong><span>5 clients total. Auto repair variant built and tested. MRR $3,500+. All clients getting monthly performance emails.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week">
+        <div class="week-header" onclick="toggleWeek(this)">
+          <span class="week-num">MO 09</span>
+          <span class="week-title">Playbook + LinkedIn Reposition + Gate Check</span>
+          <span class="week-complete-badge">✅</span>
+          <span class="week-count" id="wc-11">0/6</span>
+          <span class="week-hours">~24 hrs</span>
+          <span class="week-toggle">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="week-cols">
+            <div>
+              <div class="col-header">Systematize</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Write your complete delivery playbook: discovery call → proposal → onboarding form → deployment → monthly management → check-in call → renewal. Every step, specific enough that a part-time contractor could follow it</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Compile all case studies (HVAC + auto repair pilot) into a 1-page portfolio PDF. Real numbers, client industry, results.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Identify which tasks could be delegated first (check-in calls? Monthly reporting? Troubleshooting basic Make errors?)</span></li>
+              </ul>
+            </div>
+            <div>
+              <div class="col-header">Reposition</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Update LinkedIn headline: "AI Systems Integrator | Automating customer ops for trade service businesses | Make.com · Claude API · Twilio"</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Add Featured section with portfolio PDF, Loom demo link, and LinkedIn post with best case study numbers</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Gate check: 5 clients ✓, $3,500+ MRR ✓, playbook written ✓, LinkedIn updated ✓ → Phase 4 unlocked</span></li>
+              </ul>
+            </div>
+            <div class="deliverable" style="grid-column:1/-1">
+              <span class="deliverable-icon">🔓</span>
+              <div><strong>Phase 3 Gate</strong><span>5 clients + $3,500+ MRR + full playbook + portfolio PDF + LinkedIn repositioned → Phase 4 unlocked.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════ PHASE 4 ════════ -->
+  <div class="phase phase-4" id="phase4">
+    <div class="phase-header">
+      <div class="phase-badge">PHASE 4</div>
+      <div class="phase-title-block">
+        <div class="phase-title">AI Systems Integrator — Repositioning</div>
+        <div class="phase-sub">Months 10–18 · Target: $15,000–25,000 MRR · Career decision point</div>
+        <div class="phase-tags">
+          <span class="tag">Mid-Market Targeting</span>
+          <span class="tag">Premium Retainers</span>
+          <span class="tag">Inbound Positioning</span>
+          <span class="tag">Delegation</span>
+          <span class="tag">Career Optionality</span>
+        </div>
+      </div>
+      <div class="phase-progress-text" id="p4progress">0 / 0</div>
+    </div>
+
+    <div class="gate">
+      <div class="gate-icon">🔒</div>
+      <div>
+        <div class="gate-label">Program Completion Gate</div>
+        <div class="gate-title">① At least 1 mid-market client at $3,000+/mo. ② SMB base generating $4,000–6,000/mo (managed passively or via contractor). ③ Total monthly revenue $10,000+. ④ Deliberate written decision on path: stay independent, take a role, or hybrid.</div>
+      </div>
+    </div>
+
+    <div class="weeks-grid" data-phase="4">
+
+      <div class="week">
+        <div class="week-header" onclick="toggleWeek(this)">
+          <span class="week-num">MO 10–12</span>
+          <span class="week-title">Premium Offer Design + Mid-Market Outreach</span>
+          <span class="week-complete-badge">✅</span>
+          <span class="week-count" id="wc-12">0/6</span>
+          <span class="week-hours">~30 hrs</span>
+          <span class="week-toggle">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="week-cols">
+            <div>
+              <div class="col-header">Premium Offer</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Design Tier 3 offer: $5,000–8,000 setup + $3,000–5,000/mo. Includes: multi-system integration, custom AI agents, CRM build, team training session, quarterly strategy call, SLA on response time</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Build a 5-slide case study deck: Problem → Your Approach → What Was Built → Measured Results → What's Possible Next</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Write your positioning statement: "I help field service and trade businesses under $50M automate customer operations using AI agents and no-code tools — without hiring engineers or changing existing systems."</span></li>
+              </ul>
+            </div>
+            <div>
+              <div class="col-header">Mid-Market Outreach</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Target: multi-location HVAC companies, regional plumbing franchises, mid-size auto service groups (5–20 locations)</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Channels: LinkedIn outreach, local Chamber of Commerce, BNI-style referral groups, speaking at a trade association meeting or local business event</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Contact 10 mid-market prospects with case study deck attached. Different pitch: lead with ROI math, not the demo</span></li>
+              </ul>
+            </div>
+            <div class="deliverable" style="grid-column:1/-1">
+              <span class="deliverable-icon">📦</span>
+              <div><strong>Mo 10–12 Deliverable</strong><span>Tier 3 offer documented. Case study deck complete. 10 mid-market prospects contacted.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week">
+        <div class="week-header" onclick="toggleWeek(this)">
+          <span class="week-num">MO 13–18</span>
+          <span class="week-title">Close Mid-Market + Delegate SMB + Decide</span>
+          <span class="week-complete-badge">✅</span>
+          <span class="week-count" id="wc-13">0/6</span>
+          <span class="week-hours">~60 hrs</span>
+          <span class="week-toggle">▼</span>
+        </div>
+        <div class="week-body">
+          <div class="week-cols">
+            <div>
+              <div class="col-header">Execute</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Close 1–2 mid-market clients. These anchor the transition from SMB operator to integrator/consultant identity</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Hire a part-time contractor (10 hrs/wk, $25–35/hr) to manage SMB client check-ins, monthly reporting, and basic Make troubleshooting. Use the playbook from Phase 3 to onboard them.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Expand tech stack as complexity demands: evaluate n8n (self-hosted Make alternative), Relevance AI (agent builder), or direct API integrations with industry-specific tools</span></li>
+              </ul>
+            </div>
+            <div>
+              <div class="col-header">Career Decision</div>
+              <ul class="task-list">
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>By month 18: write a 1-page career decision document. Lay out 3 options honestly — (A) stay fully independent and scale, (B) use portfolio to land $130–160K AI Solutions Consultant role, (C) hybrid: keep anchor clients while employed somewhere</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Assess what you actually want — not what sounds impressive. Your portfolio at this point opens all three doors regardless. The only question is which one fits your life.</span></li>
+                <li class="task-item" onclick="toggleCheck(this)"><input type="checkbox"><span>Log the decision and your reasoning in Journal. This is the document you'll look back on.</span></li>
+              </ul>
+            </div>
+            <div class="deliverable" style="grid-column:1/-1">
+              <span class="deliverable-icon">🏁</span>
+              <div><strong>Program Complete</strong><span>$10K+ MRR with mid-market client. SMB base delegated. Career decision written and logged.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════ TOOLS ════════ -->
+  <div class="section-label" id="tools">Tech Stack & Resources</div>
+  <div class="tools-grid">
+    <div class="tool-card">
+      <div class="tool-top"><span class="tool-name">Make.com</span><span class="tool-cost">Free → $9/mo</span></div>
+      <div class="tool-cat">Automation Core</div>
+      <div class="tool-desc">Your orchestration layer. Connects everything. Start free, upgrade when you hit operation limits (~1,000 ops/mo free).</div>
+      <div class="tool-learn">▸ make.com/en/help/tutorials</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-top"><span class="tool-name">Airtable</span><span class="tool-cost">Free → $20/mo</span></div>
+      <div class="tool-cat">Database / CRM</div>
+      <div class="tool-desc">Client database, job log, and dashboard. Free tier is sufficient for 5 clients. Use it as your source of truth for all client data.</div>
+      <div class="tool-learn">▸ airtable.com/guides</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-top"><span class="tool-name">Twilio</span><span class="tool-cost">~$0.0075/SMS</span></div>
+      <div class="tool-cat">SMS / Voice</div>
+      <div class="tool-desc">Sends and receives SMS. Pay-as-you-go. For 5 clients at 20 messages/wk each, expect $15–25/mo. Pass cost to client or build into retainer.</div>
+      <div class="tool-learn">▸ twilio.com/docs/sms/quickstart</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-top"><span class="tool-name">Claude API</span><span class="tool-cost">~$3–15 per 1M tokens</span></div>
+      <div class="tool-cat">AI Logic</div>
+      <div class="tool-desc">Powers urgency triage, message personalization, lead scoring. Use claude-haiku-4-5 for speed + cost in automation flows. Sonnet for complex reasoning.</div>
+      <div class="tool-learn">▸ docs.anthropic.com</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-top"><span class="tool-name">Tally</span><span class="tool-cost">Free</span></div>
+      <div class="tool-cat">Forms</div>
+      <div class="tool-desc">Free form builder with a native Make.com trigger. Use for intake forms, client onboarding forms, and feedback collection.</div>
+      <div class="tool-learn">▸ tally.so/help</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-top"><span class="tool-name">Stripe</span><span class="tool-cost">2.9% + $0.30/tx</span></div>
+      <div class="tool-cat">Payments</div>
+      <div class="tool-desc">Setup fee invoicing and monthly subscription billing. Create payment links — no code needed. This legitimizes you immediately.</div>
+      <div class="tool-learn">▸ stripe.com/docs/payment-links</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-top"><span class="tool-name">Loom</span><span class="tool-cost">Free (5 min limit)</span></div>
+      <div class="tool-cat">Demo / Sales</div>
+      <div class="tool-desc">Record your demo walkthrough. Your 3-min Loom is the hardest-working sales asset you'll have. Upgrade ($15/mo) when you need longer recordings.</div>
+      <div class="tool-learn">▸ loom.com</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-top"><span class="tool-name">Calendly</span><span class="tool-cost">Free</span></div>
+      <div class="tool-cat">Scheduling</div>
+      <div class="tool-desc">For booking discovery and check-in calls. Free tier is fine. Add your Calendly link to your demo page, proposal, and email signature.</div>
+      <div class="tool-learn">▸ calendly.com</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-top"><span class="tool-name">Carrd</span><span class="tool-cost">Free → $19/yr</span></div>
+      <div class="tool-cat">Demo Page</div>
+      <div class="tool-desc">Simple one-page sites. Use for your Buster's demo page and eventually your own service page. $19/yr for custom domain.</div>
+      <div class="tool-learn">▸ carrd.co/docs</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-top"><span class="tool-name">Make Community</span><span class="tool-cost">Free</span></div>
+      <div class="tool-cat">Support</div>
+      <div class="tool-desc">When stuck technically: community.make.com. Search before posting. Most problems have been solved. Fastest free technical support available.</div>
+      <div class="tool-learn">▸ community.make.com</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-top"><span class="tool-name">n8n</span><span class="tool-cost">Free (self-host)</span></div>
+      <div class="tool-cat">Phase 4 Stack</div>
+      <div class="tool-desc">Open-source Make alternative. Introduce at Phase 4 for clients who need more complex flows or lower per-operation costs at scale.</div>
+      <div class="tool-learn">▸ docs.n8n.io</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-top"><span class="tool-name">Relevance AI</span><span class="tool-cost">Free → $19/mo</span></div>
+      <div class="tool-cat">Phase 4 Stack</div>
+      <div class="tool-desc">No-code AI agent builder. Use at Phase 4 for more sophisticated multi-step AI agents that go beyond simple classification tasks.</div>
+      <div class="tool-learn">▸ relevanceai.com/docs</div>
+    </div>
+  </div>
+
+  <!-- ════════ PLAYBOOK ════════ -->
+  <div class="section-label" id="playbook">Pricing & Objection Playbook</div>
+  <div class="playbook">
+    <div class="playbook-title">Service Tiers</div>
+    <div class="playbook-grid" style="margin-bottom:28px;">
+      <div class="pc">
+        <div class="pc-label">Tier 1 — SMB Core</div>
+        <div class="pc-value"><strong>$750 setup + $650–850/mo</strong><br>Intake triage (Claude), 3-step SMS follow-up (Twilio), Google review request, Airtable job log, monthly 15-min check-in. Target: 1–3 truck HVAC/plumbing shops.</div>
+      </div>
+      <div class="pc">
+        <div class="pc-label">Tier 2 — Growth</div>
+        <div class="pc-value"><strong>$2,500 setup + $1,500–2,500/mo</strong><br>Everything in Tier 1 + calendar integration, email + SMS dual-channel, lead scoring, quarterly strategy call, monthly dashboard report. Target: 4–8 truck operations.</div>
+      </div>
+      <div class="pc">
+        <div class="pc-label">Tier 3 — Integrator</div>
+        <div class="pc-value"><strong>$5,000–8,000 setup + $3,000–5,000/mo</strong><br>Multi-system integration, custom AI agents, CRM build, team training, SLA, dedicated advisory. Target: multi-location, $5M–50M revenue.</div>
+      </div>
+      <div class="pc">
+        <div class="pc-label">What You Never Sell</div>
+        <div class="pc-value">Ad spend, SEO, social media, graphic design, website builds, copywriting. Stay in your lane: intake, follow-up, AI logic, system integration. Refer everything else and charge a referral fee.</div>
+      </div>
+    </div>
+
+    <div class="playbook-title">Objection Handling</div>
+    <div class="objection">
+      <div class="objection-q">"We already have software that does this."</div>
+      <div class="objection-a">→ <strong>"Does it automatically follow up on every missed call, triage urgency with AI, and send a Google review request 3 days after every completed job?"</strong> Most shop management systems don't. That's the gap I fill. I'm not replacing your software — I'm adding the intelligence layer on top of it.</div>
+    </div>
+    <div class="objection">
+      <div class="objection-q">"We're too small for something like this."</div>
+      <div class="objection-a">→ <strong>"That's actually why this works so well for you."</strong> A 2-truck shop missing 3 emergency calls a week loses $15–20K in annual revenue at $450/call. This pays for itself in the first month if it catches 2 jobs you'd have lost.</div>
+    </div>
+    <div class="objection">
+      <div class="objection-q">"What if it breaks?"</div>
+      <div class="objection-a">→ <strong>"That's what the retainer covers."</strong> I monitor it, fix errors same day, and you get a monthly check-in. If something breaks and I don't catch it in 24 hours, your next month is free. That's the service agreement.</div>
+    </div>
+    <div class="objection">
+      <div class="objection-q">"We tried automation before and it didn't work."</div>
+      <div class="objection-a">→ <strong>"What went wrong?"</strong> (Let them answer.) Usually it's that someone set it up once and never maintained it, or it was too generic. This is configured specifically for how your shop operates, and I manage it ongoing. That's different from a one-time tool setup.</div>
+    </div>
+    <div class="objection">
+      <div class="objection-q">"I need to think about it / talk to my partner."</div>
+      <div class="objection-a">→ <strong>"That makes sense. What's the main thing you'd want to talk through?"</strong> Get the real objection out. Then: "Want me to set up a 15-minute call with both of you so you can see it live?" Give them a deadline: "I can hold your spot in the onboarding queue until [specific date]."</div>
+    </div>
+
+  </div>
+
+  <!-- REVENUE -->
+  <div class="section-label">Revenue Trajectory</div>
+  <div class="playbook" style="margin-bottom:52px;">
+    <div class="playbook-title">Monthly Recurring Revenue — Projected</div>
+    <div class="rev-row">
+      <span class="rev-mo">Month 3</span>
+      <div class="rev-track"><div class="rev-bar" style="width:0%" data-target="3" data-color="var(--phase1)"></div></div>
+      <span class="rev-amt" style="color:var(--phase1)">$650</span>
+    </div>
+    <div class="rev-row">
+      <span class="rev-mo">Month 6</span>
+      <div class="rev-track"><div class="rev-bar" style="width:0%" data-target="11" data-color="var(--phase1)"></div></div>
+      <span class="rev-amt" style="color:var(--phase1)">$2,100</span>
+    </div>
+    <div class="rev-row">
+      <span class="rev-mo">Month 9</span>
+      <div class="rev-track"><div class="rev-bar" style="width:0%" data-target="23" data-color="var(--phase2)"></div></div>
+      <span class="rev-amt" style="color:var(--phase2)">$4,250</span>
+    </div>
+    <div class="rev-row">
+      <span class="rev-mo">Month 12</span>
+      <div class="rev-track"><div class="rev-bar" style="width:0%" data-target="40" data-color="var(--phase3)"></div></div>
+      <span class="rev-amt" style="color:var(--phase3)">$7,500</span>
+    </div>
+    <div class="rev-row">
+      <span class="rev-mo">Month 18</span>
+      <div class="rev-track"><div class="rev-bar" style="width:0%; background:linear-gradient(90deg,var(--phase3),var(--phase4))" data-target="88" data-color="gradient"></div></div>
+      <span class="rev-amt" style="color:var(--phase4)">$15–25K</span>
+    </div>
+    <p style="font-size:12px;color:var(--text-dimmer);margin-top:18px;font-family:'DM Mono',monospace;line-height:1.6;">Conservative baseline: 5 Tier-1 clients by month 9 + 1–2 Tier-3 mid-market by month 18. Actual results depend on close rate and phase gate speed. This is a planning tool, not a promise.</p>
+  </div>
+
+  <!-- ════════ JOURNAL ════════ -->
+  <div class="section-label" id="journal">Field Journal</div>
+  <div class="journal-area">
+    <div class="playbook-title" style="margin-bottom:6px;">Running Log</div>
+    <p style="font-size:13px;color:var(--text-dim);margin-bottom:20px;">Log prospect conversations, retros, wins, failures, and realizations as you go. This becomes your playbook and your case study material.</p>
+    <div class="journal-entries" id="journalEntries">
+      <div class="journal-empty" id="journalEmpty">No entries yet. Start logging conversations and realizations.</div>
+    </div>
+    <div class="journal-input-row">
+      <textarea class="journal-input" id="journalInput" rows="2" placeholder="Log a conversation, a result, an objection you heard, or a decision you made..."></textarea>
+      <button class="journal-add" onclick="addJournalEntry()">+ Log</button>
+    </div>
+  </div>
+
+  <footer>
+    <span class="footer-txt">// AI Operator Training Program · Gavin · v2.0 · 2026</span>
+    <span class="footer-txt">Built with Claude</span>
+  </footer>
+
+</div>
+
+<script>
+// ─── TASK ID SYSTEM (stable, not index-based) ───
+function getTaskId(checkbox) {
+  const li = checkbox.closest('.task-item');
+  const week = checkbox.closest('.week');
+  const phase = checkbox.closest('.phase');
+  const weekIdx = Array.from(document.querySelectorAll('.week')).indexOf(week);
+  const taskIdx = Array.from(week.querySelectorAll('.task-item')).indexOf(li);
+  return `task-${weekIdx}-${taskIdx}`;
+}
+
+// ─── TOGGLE CHECK via click on LI ───
+function toggleCheck(li) {
+  const cb = li.querySelector('input[type="checkbox"]');
+  cb.checked = !cb.checked;
+  if (cb.checked) li.classList.add('done');
+  else li.classList.remove('done');
+  updateAll();
+  saveState();
+}
+
+// Also handle direct checkbox click without double-toggle
+document.addEventListener('change', e => {
+  if (e.target.type === 'checkbox' && e.target.closest('.task-item')) {
+    const li = e.target.closest('.task-item');
+    if (e.target.checked) li.classList.add('done');
+    else li.classList.remove('done');
+    updateAll();
+    saveState();
+  }
+});
+
+// ─── WEEK TOGGLE ───
+function toggleWeek(header) {
+  header.parentElement.classList.toggle('open');
+}
+
+// ─── UPDATE ALL PROGRESS ───
+function updateAll() {
+  const allBoxes = document.querySelectorAll('.task-item input[type="checkbox"]');
+  const checkedBoxes = document.querySelectorAll('.task-item input[type="checkbox"]:checked');
+  const total = allBoxes.length;
+  const done = checkedBoxes.length;
+  const pct = total ? Math.round((done / total) * 100) : 0;
+
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('pctDisplay').textContent = pct + '%';
+  document.getElementById('taskCount').textContent = `${done} / ${total} tasks`;
+  document.getElementById('sticky-fill').style.width = pct + '%';
+  document.getElementById('sticky-badge').textContent = pct + '%';
+
+  // Per-phase progress
+  const phases = [
+    { el: document.querySelector('.phase-1'), id: 'p1', pctEl: 'p1pct', progEl: 'p1progress' },
+    { el: document.querySelector('.phase-2'), id: 'p2', pctEl: 'p2pct', progEl: 'p2progress' },
+    { el: document.querySelector('.phase-3'), id: 'p3', pctEl: 'p3pct', progEl: 'p3progress' },
+    { el: document.querySelector('.phase-4'), id: 'p4', pctEl: 'p4pct', progEl: 'p4progress' },
+  ];
+
+  phases.forEach(p => {
+    if (!p.el) return;
+    const pAll = p.el.querySelectorAll('.task-item input[type="checkbox"]');
+    const pDone = p.el.querySelectorAll('.task-item input[type="checkbox"]:checked');
+    const pPct = pAll.length ? Math.round((pDone.length / pAll.length) * 100) : 0;
+    const pctEl = document.getElementById(p.pctEl);
+    const progEl = document.getElementById(p.progEl);
+    if (pctEl) pctEl.textContent = pPct + '%';
+    if (progEl) progEl.textContent = `${pDone.length} / ${pAll.length}`;
+  });
+
+  // Per-week task count + complete badge
+  const weeks = document.querySelectorAll('.week');
+  weeks.forEach((w, i) => {
+    const wAll = w.querySelectorAll('.task-item input[type="checkbox"]');
+    const wDone = w.querySelectorAll('.task-item input[type="checkbox"]:checked');
+    const countEl = w.querySelector('.week-count');
+    if (countEl) {
+      countEl.textContent = `${wDone.length}/${wAll.length}`;
+      countEl.className = 'week-count' + (wDone.length === wAll.length && wAll.length > 0 ? ' done-all' : '');
+    }
+    if (wDone.length === wAll.length && wAll.length > 0) w.classList.add('complete');
+    else w.classList.remove('complete');
+  });
+}
+
+// ─── SAVE / LOAD STATE ───
+function saveState() {
+  const state = {};
+  document.querySelectorAll('.task-item input[type="checkbox"]').forEach(cb => {
+    state[getTaskId(cb)] = cb.checked;
+  });
+  localStorage.setItem('aiProgram_v2_tasks', JSON.stringify(state));
+}
+
+function loadState() {
+  const raw = localStorage.getItem('aiProgram_v2_tasks');
+  if (!raw) return;
+  const state = JSON.parse(raw);
+  document.querySelectorAll('.task-item input[type="checkbox"]').forEach(cb => {
+    const id = getTaskId(cb);
+    if (state[id]) {
+      cb.checked = true;
+      cb.closest('.task-item').classList.add('done');
+    }
+  });
+  updateAll();
+}
+
+function resetProgress() {
+  if (!confirm('Reset all task progress? This cannot be undone.')) return;
+  document.querySelectorAll('.task-item input[type="checkbox"]').forEach(cb => {
+    cb.checked = false;
+    cb.closest('.task-item').classList.remove('done');
+  });
+  localStorage.removeItem('aiProgram_v2_tasks');
+  updateAll();
+}
+
+// ─── STICKY BADGE SHOW ON SCROLL ───
+window.addEventListener('scroll', () => {
+  const badge = document.getElementById('sticky-badge');
+  if (window.scrollY > 200) badge.classList.add('show');
+  else badge.classList.remove('show');
+});
+
+// ─── REVENUE BARS ANIMATE ON SCROLL ───
+function animateBars() {
+  const bars = document.querySelectorAll('.rev-bar[data-target]');
+  bars.forEach(bar => {
+    const rect = bar.getBoundingClientRect();
+    if (rect.top < window.innerHeight - 60 && !bar.dataset.animated) {
+      bar.dataset.animated = 'true';
+      setTimeout(() => {
+        bar.style.width = bar.dataset.target + '%';
+        if (bar.dataset.color !== 'gradient') bar.style.background = bar.dataset.color;
+      }, 100);
+    }
+  });
+}
+window.addEventListener('scroll', animateBars, { passive: true });
+
+// ─── JOURNAL ───
+function addJournalEntry() {
+  const input = document.getElementById('journalInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  const entries = getJournalEntries();
+  const entry = {
+    id: Date.now(),
+    date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: '2-digit' }),
+    text
+  };
+  entries.unshift(entry);
+  saveJournalEntries(entries);
+  renderJournal(entries);
+  input.value = '';
+}
+
+function deleteJournalEntry(id) {
+  const entries = getJournalEntries().filter(e => e.id !== id);
+  saveJournalEntries(entries);
+  renderJournal(entries);
+}
+
+function getJournalEntries() {
+  const raw = localStorage.getItem('aiProgram_v2_journal');
+  return raw ? JSON.parse(raw) : [];
+}
+
+function saveJournalEntries(entries) {
+  localStorage.setItem('aiProgram_v2_journal', JSON.stringify(entries));
+}
+
+function renderJournal(entries) {
+  const container = document.getElementById('journalEntries');
+  const empty = document.getElementById('journalEmpty');
+  if (!entries.length) {
+    container.innerHTML = '';
+    container.appendChild(empty || (() => {
+      const d = document.createElement('div');
+      d.className = 'journal-empty';
+      d.id = 'journalEmpty';
+      d.textContent = 'No entries yet. Start logging conversations and realizations.';
+      return d;
+    })());
+    return;
+  }
+  container.innerHTML = entries.map(e => `
+    <div class="journal-entry">
+      <span class="journal-date">${e.date}</span>
+      <span class="journal-text">${e.text.replace(/</g, '&lt;')}</span>
+      <button class="journal-del" onclick="deleteJournalEntry(${e.id})" title="Delete">×</button>
+    </div>
+  `).join('');
+}
+
+// Allow Ctrl+Enter to submit journal
+document.getElementById('journalInput').addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') addJournalEntry();
+});
+
+// ─── INIT ───
+document.addEventListener('DOMContentLoaded', () => {
+  loadState();
+  renderJournal(getJournalEntries());
+  animateBars();
+  updateAll();
+});
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('SW registered:', reg.scope))
+      .catch(err => console.log('SW error:', err));
+  });
+}
+</script>
+</body>
+</html>
